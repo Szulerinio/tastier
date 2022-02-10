@@ -48,10 +48,10 @@ function FiltersScreen({ route, navigation }) {
         style={styles.button}
         onPress={() => {
           navigation.navigate("List", {
-            type: enteredType,
-            brand: enteredBrand,
-            name: enteredName,
-            rate: enteredRate,
+            type: enteredType || "",
+            brand: enteredBrand || "",
+            name: enteredName || "",
+            rate: enteredRate || "",
           });
         }}
       ></Button>

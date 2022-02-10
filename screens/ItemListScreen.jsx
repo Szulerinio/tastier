@@ -4,14 +4,34 @@ import { Button } from "react-native";
 
 const TEMPITEMS = [
   { type: "Piwo", brand: "Beczkowe", name: "mocne wiśnia 9%", rate: 5 },
-  { type: "Piwo", brand: "Beczkowe2", name: "mocne wiśnia 9%", rate: 5 },
-  { type: "Piwo", brand: "Beczkowe3", name: "mocne wiśnia 9%", rate: 5 },
-  { type: "Piwo", brand: "Beczkowe4", name: "mocne wiśnia 9%", rate: 5 },
-  { type: "Piwo", brand: "Beczkowe5", name: "mocne wiśnia 9%", rate: 5 },
+  { type: "Piwó", brand: "Namysłów", name: "kuflowe mocne", rate: 4 },
+  { type: "Czekolada", brand: "Shogetten", name: "Black and white", rate: 5 },
 ];
 
+function noAccent(text) {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function filter(filters) {
+  let filtered = TEMPITEMS.filter((item) => {
+    return (
+      noAccent(item.type)
+        .toLowerCase()
+        .includes(noAccent(filters.type).toLowerCase()) &&
+      noAccent(item.brand)
+        .toLowerCase()
+        .includes(noAccent(filters.brand).toLowerCase()) &&
+      noAccent(item.name)
+        .toLowerCase()
+        .includes(noAccent(filters.name).toLowerCase()) &&
+      (filters.rate == "" || item.rate == filters.rate)
+    );
+  });
+  return filtered;
+}
+
 function ItemListScreen({ route, navigation }) {
-  const { nazwa } = route.params;
+  const { params } = route;
   return (
     <View
       style={{
@@ -22,7 +42,7 @@ function ItemListScreen({ route, navigation }) {
     >
       <StatusBar style="auto" />
       <View>
-        {TEMPITEMS.map((item, index) => {
+        {filter(params).map((item, index) => {
           return (
             <View key={index}>
               <Text
@@ -49,7 +69,7 @@ function ItemListScreen({ route, navigation }) {
         })}
       </View>
 
-      <Text>Filtry : {JSON.stringify(route.params)}</Text>
+      {/* <Text>Filtry : {noAccent(params.type) + "."}</Text> */}
     </View>
   );
 }

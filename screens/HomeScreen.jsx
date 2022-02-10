@@ -22,10 +22,10 @@ function HomeScreen({ navigation }) {
       <Button
         onPress={() =>
           navigation.navigate("List", {
-            typ: "",
-            marka: "",
-            nazwa: "Beczkowe",
-            ocena: "",
+            type: "",
+            brand: "",
+            name: "",
+            rate: "",
           })
         }
         title="Produkty"
