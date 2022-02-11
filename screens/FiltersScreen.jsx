@@ -26,21 +26,25 @@ function FiltersScreen({ route, navigation }) {
       <LabeledTextInput
         key={0}
         label="Type"
+        value={enteredType}
         onChange={handleTypeFilterChange}
       ></LabeledTextInput>
       <LabeledTextInput
         key={1}
         label="Brand"
+        value={enteredBrand}
         onChange={handleBrandFilterChange}
       ></LabeledTextInput>
       <LabeledTextInput
         key={2}
         label="Name"
+        value={enteredName}
         onChange={handleNameFilterChange}
       ></LabeledTextInput>
       <LabeledTextInput
         key={3}
         label="Rate"
+        value={enteredRate}
         onChange={handleRateFilterChange}
       ></LabeledTextInput>
       <Button

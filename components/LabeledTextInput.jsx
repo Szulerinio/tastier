@@ -5,7 +5,7 @@ function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 function LabeledTextInput(props) {
-  const { label, onChange } = props;
+  const { label, onChange, value } = props;
   const changeHandler = (event) => {
     // console.log("normalized[0]: " + noAccent(event)[0]);
     // console.log("normalized[1]: " + noAccent(event)[1]);
@@ -22,6 +22,7 @@ function LabeledTextInput(props) {
         label={label}
         type="text"
         name={label}
+        value={value}
         id=""
         onChangeText={changeHandler}
       />
