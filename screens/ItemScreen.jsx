@@ -8,7 +8,11 @@ function ItemScreen({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate("Home", {})}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Edit", { code, type, brand, name, rate })
+          }
+        >
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
             source={require("../assets/icons8-edit-24.png")}
