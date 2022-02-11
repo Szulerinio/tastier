@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { View, Text } from "react-native";
 import { Button } from "react-native";
 import ItemListElement from "../components/ItemListElement";
+import React from "react";
 
 const TEMPITEMS = [
   {
@@ -51,6 +52,18 @@ function filter(filters) {
 
 const ItemListScreen = ({ route, navigation }) => {
   const { params } = route;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => navigation.navigate("Filter", {})}
+          title={"Filter"}
+        ></Button>
+      ),
+    });
+  });
+
   return (
     <View
       style={{

@@ -1,10 +1,10 @@
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import HomeScreen from "./screens//HomeScreen";
 import ItemListScreen from "./screens/ItemListScreen";
 import FiltersScreen from "./screens/FiltersScreen";
+import ItemScreen from "./screens/ItemScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -14,6 +14,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
         <Stack.Screen name="List" component={ItemListScreen}></Stack.Screen>
         <Stack.Screen name="Filter" component={FiltersScreen}></Stack.Screen>
+        <Stack.Screen name="Item" component={ItemScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

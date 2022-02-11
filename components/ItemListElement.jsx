@@ -6,7 +6,7 @@ const ItemListElement = ({ data, navigation }) => {
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Home");
+        navigation.navigate("Item", { ...data }); //TODO: move that to context, and pass only code
       }}
     >
       <Card>
