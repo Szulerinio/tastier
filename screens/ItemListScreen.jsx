@@ -1,57 +1,50 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { Button } from "react-native";
 import ItemListElement from "../components/ItemListElement";
-import React from "react";
-
-const TEMPITEMS = [
-  {
-    code: "0",
-    type: "Piwo",
-    brand: "Beczkowe",
-    name: "mocne wiśnia 9%",
-    rate: 5,
-  },
-  {
-    code: "1",
-    type: "Piwó",
-    brand: "Namysłów",
-    name: "kuflowe mocne",
-    rate: 4,
-  },
-  {
-    code: "2",
-    type: "Czekolada",
-    brand: "Shogetten",
-    name: "Black and white",
-    rate: 5,
-  },
-];
-
+import React, { useContext, useEffect, useState } from "react";
+import DataContext from "../context/data-context";
+import { useIsFocused } from "@react-navigation/native";
 function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-function filter(filters) {
-  let filtered = TEMPITEMS.filter((item) => {
-    return (
-      noAccent(item.type)
-        .toLowerCase()
-        .includes(noAccent(filters.type).toLowerCase()) &&
-      noAccent(item.brand)
-        .toLowerCase()
-        .includes(noAccent(filters.brand).toLowerCase()) &&
-      noAccent(item.name)
-        .toLowerCase()
-        .includes(noAccent(filters.name).toLowerCase()) &&
-      (filters.rate == "" || item.rate == filters.rate)
-    );
-  });
-  return filtered;
-}
-
 const ItemListScreen = ({ route, navigation }) => {
   const { params } = route;
+  const ctx = useContext(DataContext);
+  // const isFocused = useIsFocused();
+  // useEffect(() => {
+  //   // console.log("AAAAAAAAAAAAA");
+  // }, [isFocused]);
+
+  console.log("tutaj 1 ");
+  const renderItem = ({ item }) => {
+    return (
+      <ItemListElement
+        key={item.code}
+        navigation={navigation}
+        data={item}
+      ></ItemListElement>
+    );
+  };
+
+  function filter(data, filters) {
+    let filtered = data.filter((item) => {
+      return (
+        noAccent(item.type)
+          .toLowerCase()
+          .includes(noAccent(filters.type).toLowerCase()) &&
+        noAccent(item.brand)
+          .toLowerCase()
+          .includes(noAccent(filters.brand).toLowerCase()) &&
+        noAccent(item.name)
+          .toLowerCase()
+          .includes(noAccent(filters.name).toLowerCase()) &&
+        (filters.rate == "" || item.rate == filters.rate)
+      );
+    });
+    return filtered;
+  }
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -73,17 +66,12 @@ const ItemListScreen = ({ route, navigation }) => {
       }}
     >
       <StatusBar style="auto" />
-      <View>
-        {filter(params).map((item) => {
-          return (
-            <ItemListElement
-              key={item.code}
-              navigation={navigation}
-              data={item}
-            ></ItemListElement>
-          );
-        })}
-      </View>
+
+      <FlatList
+        data={filter(ctx.items, params)}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.code}
+      />
 
       <Text>
         {"Filtry :" +
@@ -95,6 +83,18 @@ const ItemListScreen = ({ route, navigation }) => {
           ", " +
           noAccent(params.rate)}
       </Text>
+      <Button
+        onPress={() =>
+          ctx.editData({
+            code: "72",
+            type: "Czekolada",
+            brand: "Shogetten",
+            name: "Black and white",
+            rate: "5",
+          })
+        }
+        title={"addd"}
+      ></Button>
     </View>
   );
 };

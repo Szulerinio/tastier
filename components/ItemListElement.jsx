@@ -1,12 +1,13 @@
-import { Text, View, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 import { Card } from "react-native-elements";
 
 const ItemListElement = ({ data, navigation }) => {
   const { code, type, brand, name, rate } = data;
+  // console.log("Code: " + code);
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Item", { ...data }); //TODO: move that to context, and pass only code
+        navigation.navigate("Item", { code });
       }}
     >
       <Card>

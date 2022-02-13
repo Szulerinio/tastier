@@ -1,16 +1,21 @@
-import { useState } from "react";
-import { TextInput, View, TouchableOpacity, Image } from "react-native";
+import { useState, useContext } from "react";
+import { View, TouchableOpacity, Image } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import React from "react";
+import DataContext from "../context/data-context";
 
 const EditItemScreen = ({ route, navigation }) => {
-  const { code, type, brand, name, rate } = route.params; // TODO add functioning save button
-
+  const { code } = route.params;
+  const ctx = useContext(DataContext);
+  console.log("tutaj 3 ");
+  const { type, brand, name, rate } = ctx.items.find(
+    (item) => item.code == code
+  );
   const [enteredCode, setEnteredCode] = useState(code);
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);
   const [enteredName, setEnteredName] = useState(name);
-  const [enteredRate, setEnteredRate] = useState(rate.toString());
+  const [enteredRate, setEnteredRate] = useState(rate);
   const handleCodeChange = (event) => {
     setEnteredCode(event);
   };
@@ -31,15 +36,18 @@ const EditItemScreen = ({ route, navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("Edit", {
-              enteredCode,
-              type,
-              brand,
-              name,
-              rate,
-            })
-          }
+          onPress={() => {
+            ctx.editData({
+              code: enteredCode,
+              type: enteredType,
+              brand: enteredBrand,
+              name: enteredName,
+              rate: enteredRate,
+            });
+            navigation.navigate("Item", {
+              code: enteredCode,
+            });
+          }}
         >
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
@@ -78,7 +86,7 @@ const EditItemScreen = ({ route, navigation }) => {
       ></LabeledTextInput>
       <LabeledTextInput
         key={4}
-        value={enteredRate.toString()}
+        value={enteredRate}
         label="rate"
         onChange={handleRateChange}
       ></LabeledTextInput>
