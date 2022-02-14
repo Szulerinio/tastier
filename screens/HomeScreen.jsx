@@ -7,7 +7,10 @@ function HomeScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <StatusBar style="auto" />
       <Text>Home Screen</Text>
-      <Button onPress={() => alert("Skan")} title="Skanuj"></Button>
+      <Button
+        onPress={() => navigation.navigate("Scanner", {})}
+        title="Skanuj"
+      ></Button>
       <Button
         onPress={() => navigation.navigate("Filter", {})}
         title="Wyszukaj"

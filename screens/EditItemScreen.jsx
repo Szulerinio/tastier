@@ -8,9 +8,9 @@ const EditItemScreen = ({ route, navigation }) => {
   const { code } = route.params;
   const ctx = useContext(DataContext);
   console.log("tutaj 3 ");
-  const { type, brand, name, rate } = ctx.items.find(
-    (item) => item.code == code
-  );
+  console.log(code);
+  const temp = ctx.items.find((item) => item.code == code);
+  const { type, brand, name, rate } = temp || "";
   const [enteredCode, setEnteredCode] = useState(code);
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);

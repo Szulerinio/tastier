@@ -7,6 +7,8 @@ import FiltersScreen from "./screens/FiltersScreen";
 import ItemScreen from "./screens/ItemScreen";
 import EditItemScreen from "./screens/EditItemScreen";
 import DataProvider from "./context/DataProvider";
+import ScanerScreen from "./screens/ScannerScreen";
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -18,6 +20,7 @@ export default function App() {
           <Stack.Screen name="Filter" component={FiltersScreen}></Stack.Screen>
           <Stack.Screen name="Item" component={ItemScreen}></Stack.Screen>
           <Stack.Screen name="Edit" component={EditItemScreen}></Stack.Screen>
+          <Stack.Screen name="Scanner" component={ScanerScreen}></Stack.Screen>
         </Stack.Navigator>
       </DataProvider>
     </NavigationContainer>
