@@ -10,7 +10,7 @@ const EditItemScreen = ({ route, navigation }) => {
   console.log("tutaj 3 ");
   console.log(code);
   const temp = ctx.items.find((item) => item.code == code);
-  const { type, brand, name, rate } = temp || "";
+  const { type = "", brand = "", name = "", rate = "" } = temp || "";
   const [enteredCode, setEnteredCode] = useState(code);
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);
