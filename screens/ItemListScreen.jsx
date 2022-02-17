@@ -2,14 +2,14 @@ import { StatusBar } from "expo-status-bar";
 import { View, Text, FlatList } from "react-native";
 import { Button } from "react-native";
 import ItemListElement from "../components/ItemListElement";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import DataContext from "../context/data-context";
-import { useIsFocused } from "@react-navigation/native";
 function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 const ItemListScreen = ({ route, navigation }) => {
+  console.log("LIST SCREEN");
   const { params } = route;
   const ctx = useContext(DataContext);
   // const isFocused = useIsFocused();
@@ -40,7 +40,7 @@ const ItemListScreen = ({ route, navigation }) => {
         noAccent(item.name)
           .toLowerCase()
           .includes(noAccent(filters.name).toLowerCase()) &&
-        (filters.rate == "" || item.rate == filters.rate)
+        (filters.rate.includes(item.rate) || filters.rate.length === 0)
       );
     });
     return filtered;
@@ -81,20 +81,20 @@ const ItemListScreen = ({ route, navigation }) => {
           ", " +
           noAccent(params.name) +
           ", " +
-          noAccent(params.rate)}
+          params.rate}
       </Text>
-      <Button
+      {/* <Button
         onPress={() =>
           ctx.editData({
             code: "72",
             type: "Czekolada",
             brand: "Shogetten",
             name: "Black and white",
-            rate: "5",
+            rate: 5,
           })
         }
         title={"addd"}
-      ></Button>
+      ></Button> */}
     </View>
   );
 };

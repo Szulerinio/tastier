@@ -27,10 +27,11 @@ const ItemListElement = ({ data, navigation }) => {
             {name} {"\n"}
           </Text>
           <Text>
-            {rate} {"\n"}
+            Ocena: {rate} {"\n"}
           </Text>
           <Text>
-            {code} {"\n"}
+            {/* {code} */}
+            {"\n"}
           </Text>
         </Text>
       </Card>

@@ -6,7 +6,7 @@ export default DataContext = React.createContext({
       type: "Piwo",
       brand: "Beczkowe",
       name: "mocne wiśnia 9%",
-      rate: "5",
+      rate: 5,
     },
   ],
   editData: () => {},

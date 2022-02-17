@@ -3,22 +3,54 @@ import { View, TouchableOpacity, Image } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import React from "react";
 import DataContext from "../context/data-context";
+import { ButtonGroup } from "react-native-elements";
 
 const EditItemScreen = ({ route, navigation }) => {
+  console.log("EDIT SCREEN");
   const { code } = route.params;
   const ctx = useContext(DataContext);
   console.log("tutaj 3 ");
   console.log(code);
   const temp = ctx.items.find((item) => item.code == code);
-  const { type = "", brand = "", name = "", rate = "" } = temp || "";
-  const [enteredCode, setEnteredCode] = useState(code);
+  const { type = "", brand = "", name = "", rate = 0 } = temp || "";
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);
   const [enteredName, setEnteredName] = useState(name);
   const [enteredRate, setEnteredRate] = useState(rate);
-  const handleCodeChange = (event) => {
-    setEnteredCode(event);
+
+  const handleSave = () => {
+    ctx.editData({
+      code: code,
+      type: enteredType,
+      brand: enteredBrand,
+      name: enteredName,
+      rate: enteredRate,
+    });
+    if (temp == undefined) {
+      const routes = [
+        { name: "Home", params: undefined },
+        {
+          name: "List",
+          params: {
+            brand: "",
+            name: "",
+            rate: [],
+            type: "",
+          },
+        },
+        { name: "Item", params: { code: code } },
+      ];
+      navigation.reset({
+        index: 1,
+        routes: routes,
+      });
+    } else {
+      navigation.navigate("Item", {
+        code: code,
+      });
+    }
   };
+
   const handleTypeChange = (event) => {
     setEnteredType(event);
   };
@@ -35,20 +67,7 @@ const EditItemScreen = ({ route, navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            ctx.editData({
-              code: enteredCode,
-              type: enteredType,
-              brand: enteredBrand,
-              name: enteredName,
-              rate: enteredRate,
-            });
-            navigation.navigate("Item", {
-              code: enteredCode,
-            });
-          }}
-        >
+        <TouchableOpacity onPress={handleSave}>
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
             source={require("../assets/icons8-save-30.png")}
@@ -60,12 +79,6 @@ const EditItemScreen = ({ route, navigation }) => {
 
   return (
     <View>
-      <LabeledTextInput
-        key={0}
-        value={enteredCode}
-        label="code"
-        onChange={handleCodeChange}
-      ></LabeledTextInput>
       <LabeledTextInput
         key={1}
         value={enteredType}
@@ -84,12 +97,14 @@ const EditItemScreen = ({ route, navigation }) => {
         label="name"
         onChange={handleNameChange}
       ></LabeledTextInput>
-      <LabeledTextInput
-        key={4}
-        value={enteredRate}
-        label="rate"
-        onChange={handleRateChange}
-      ></LabeledTextInput>
+      <ButtonGroup
+        buttons={["0", "1", "2", "3", "4", "5"]}
+        selectedIndex={enteredRate}
+        onPress={(value) => {
+          handleRateChange(value);
+        }}
+        containerStyle={{ marginBottom: 20 }}
+      />
     </View>
   );
 };

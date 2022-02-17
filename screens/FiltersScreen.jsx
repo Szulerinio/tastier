@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { View, Button, StyleSheet } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
+import { ButtonGroup } from "react-native-elements";
 
 function FiltersScreen({ route, navigation }) {
+  console.log("FILTER SCREEN");
   const { type, brand, name, rate } = route.params;
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);
   const [enteredName, setEnteredName] = useState(name);
   const [enteredRate, setEnteredRate] = useState(rate);
+  const [selectedRates, setSelectedRates] = useState([]);
 
   const handleTypeFilterChange = (event) => {
     setEnteredType(event);
@@ -47,6 +50,15 @@ function FiltersScreen({ route, navigation }) {
         value={enteredRate}
         onChange={handleRateFilterChange}
       ></LabeledTextInput>
+      <ButtonGroup
+        buttons={["0", "1", "2", "3", "4", "5"]}
+        selectMultiple
+        selectedIndexes={selectedRates}
+        onPress={(value) => {
+          setSelectedRates(value);
+        }}
+        containerStyle={{ marginBottom: 20 }}
+      />
       <Button
         title="filter"
         style={styles.button}
@@ -55,7 +67,7 @@ function FiltersScreen({ route, navigation }) {
             type: enteredType || "",
             brand: enteredBrand || "",
             name: enteredName || "",
-            rate: enteredRate || "",
+            rate: selectedRates || [],
           });
         }}
       ></Button>

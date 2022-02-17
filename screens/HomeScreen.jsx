@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { Button } from "react-native";
 
 function HomeScreen({ navigation }) {
+  console.log(navigation.getState());
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <StatusBar style="auto" />
@@ -21,7 +22,7 @@ function HomeScreen({ navigation }) {
             type: "",
             brand: "",
             name: "",
-            rate: "",
+            rate: [],
           })
         }
         title="Produkty"
