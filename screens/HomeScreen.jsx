@@ -13,7 +13,14 @@ function HomeScreen({ navigation }) {
         title="Skanuj"
       ></Button>
       <Button
-        onPress={() => navigation.navigate("Filter", {})}
+        onPress={() =>
+          navigation.navigate("Filter", {
+            type: "",
+            brand: "",
+            name: "",
+            rate: [],
+          })
+        }
         title="Wyszukaj"
       ></Button>
       <Button

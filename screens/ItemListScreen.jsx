@@ -4,6 +4,7 @@ import { Button } from "react-native";
 import ItemListElement from "../components/ItemListElement";
 import React, { useContext } from "react";
 import DataContext from "../context/data-context";
+
 function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -50,7 +51,7 @@ const ItemListScreen = ({ route, navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <Button
-          onPress={() => navigation.navigate("Filter", {})}
+          onPress={() => navigation.navigate("Filter", { ...params })}
           title={"Filter"}
         ></Button>
       ),
