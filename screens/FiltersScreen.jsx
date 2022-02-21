@@ -9,8 +9,7 @@ function FiltersScreen({ route, navigation }) {
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);
   const [enteredName, setEnteredName] = useState(name);
-  const [enteredRate, setEnteredRate] = useState(rate);
-  const [selectedRates, setSelectedRates] = useState([]);
+  const [selectedRates, setSelectedRates] = useState(rate);
 
   const handleTypeFilterChange = (event) => {
     setEnteredType(event);
@@ -20,9 +19,6 @@ function FiltersScreen({ route, navigation }) {
   };
   const handleNameFilterChange = (event) => {
     setEnteredName(event);
-  };
-  const handleRateFilterChange = (event) => {
-    setEnteredRate(event);
   };
   return (
     <View>
@@ -43,12 +39,6 @@ function FiltersScreen({ route, navigation }) {
         label="Name"
         value={enteredName}
         onChange={handleNameFilterChange}
-      ></LabeledTextInput>
-      <LabeledTextInput
-        key={3}
-        label="Rate"
-        value={enteredRate}
-        onChange={handleRateFilterChange}
       ></LabeledTextInput>
       <ButtonGroup
         buttons={["0", "1", "2", "3", "4", "5"]}
