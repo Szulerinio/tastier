@@ -72,6 +72,9 @@ const ItemListScreen = ({ route, navigation }) => {
         data={filter(ctx.items, params)}
         renderItem={renderItem}
         keyExtractor={(item) => item.code}
+        ListEmptyComponent={
+          <Text>"Brak produktów paujących do obecnych filtrów"</Text>
+        }
       />
 
       <Text>
