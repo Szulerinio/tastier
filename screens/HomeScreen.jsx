@@ -10,7 +10,7 @@ function HomeScreen({ navigation }) {
       <Text>Home Screen</Text>
       <Button
         onPress={() => navigation.navigate("Scanner", {})}
-        title="Skanuj"
+        title="Zeskanuj kod kreskowy"
       ></Button>
       <Button
         onPress={() =>
@@ -21,7 +21,7 @@ function HomeScreen({ navigation }) {
             rate: [],
           })
         }
-        title="Wyszukaj"
+        title="Wyszukaj produkt"
       ></Button>
       <Button
         onPress={() =>
@@ -32,7 +32,7 @@ function HomeScreen({ navigation }) {
             rate: [],
           })
         }
-        title="Produkty"
+        title="Twoje produkty"
       ></Button>
     </View>
   );
