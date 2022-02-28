@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Image } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import React from "react";
 import DataContext from "../context/data-context";
-import { ButtonGroup } from "react-native-elements";
+import LabeledButtonGroup from "../components/LabeledButtonGroup";
 
 const EditItemScreen = ({ route, navigation }) => {
   console.log("EDIT SCREEN");
@@ -97,14 +97,13 @@ const EditItemScreen = ({ route, navigation }) => {
         label="name"
         onChange={handleNameChange}
       ></LabeledTextInput>
-      <ButtonGroup
-        buttons={["0", "1", "2", "3", "4", "5"]}
-        selectedIndex={enteredRate}
-        onPress={(value) => {
+      <LabeledButtonGroup
+        label="rate"
+        selectedIndexes={enteredRate}
+        onChange={(value) => {
           handleRateChange(value);
         }}
-        containerStyle={{ marginBottom: 20 }}
-      />
+      ></LabeledButtonGroup>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Button, StyleSheet } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
-import { ButtonGroup } from "react-native-elements";
+import LabeledButtonGroup from "../components/LabeledButtonGroup";
 
 function FiltersScreen({ route, navigation }) {
   console.log("FILTER SCREEN");
@@ -40,15 +40,14 @@ function FiltersScreen({ route, navigation }) {
         value={enteredName}
         onChange={handleNameFilterChange}
       ></LabeledTextInput>
-      <ButtonGroup
-        buttons={["0", "1", "2", "3", "4", "5"]}
+      <LabeledButtonGroup
+        label="rate"
         selectMultiple
         selectedIndexes={selectedRates}
-        onPress={(value) => {
+        onChange={(value) => {
           setSelectedRates(value);
         }}
-        containerStyle={{ marginBottom: 20 }}
-      />
+      ></LabeledButtonGroup>
       <Button
         title="filter"
         style={styles.button}
