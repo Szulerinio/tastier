@@ -1,14 +1,15 @@
 import { StyleSheet, Text, TextInput } from "react-native";
+import labeledComponentStyle from "./styles/labeledComponentStyle";
 
 function LabeledTextInput(props) {
-  const { label, onChange, value } = props;
+  const { label, onChange, value, maxLength } = props;
   const changeHandler = (event) => {
     onChange(event);
   };
 
   return (
     <>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={labeledComponentStyle.label}>{label}</Text>
       <TextInput
         style={styles.input}
         label={label}
@@ -26,13 +27,9 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     borderWidth: 1,
-    margin: 12,
-    paddingBottom: 10,
-  },
-  label: {
     marginHorizontal: 12,
-    marginBottom: 1,
-    padding: 10,
+    marginBottom: 20,
+    paddingBottom: 2,
   },
 });
 export default LabeledTextInput;
