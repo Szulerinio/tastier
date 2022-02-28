@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import React from "react";
 import DataContext from "../context/data-context";
@@ -17,8 +17,23 @@ const EditItemScreen = ({ route, navigation }) => {
   const [enteredBrand, setEnteredBrand] = useState(brand);
   const [enteredName, setEnteredName] = useState(name);
   const [enteredRate, setEnteredRate] = useState(rate);
+  const [empty, setEmpty] = useState("");
 
   const handleSave = () => {
+    //check if empty fields are empty
+    if (enteredType == "") {
+      setEmpty("type");
+      return;
+    }
+    if (enteredBrand == "") {
+      setEmpty("brand");
+      return;
+    }
+    if (enteredName == "") {
+      setEmpty("name");
+      return;
+    }
+
     ctx.editData({
       code: code,
       type: enteredType,
@@ -52,12 +67,15 @@ const EditItemScreen = ({ route, navigation }) => {
   };
 
   const handleTypeChange = (event) => {
+    if (empty == "type") setEmpty("");
     setEnteredType(event);
   };
   const handleBrandChange = (event) => {
+    if (empty == "brand") setEmpty("");
     setEnteredBrand(event);
   };
   const handleNameChange = (event) => {
+    if (empty == "name") setEmpty("");
     setEnteredName(event);
   };
   const handleRateChange = (event) => {
@@ -107,7 +125,18 @@ const EditItemScreen = ({ route, navigation }) => {
           handleRateChange(value);
         }}
       ></LabeledButtonGroup>
+      {empty != "" && (
+        <Text style={style.emptyText}>{empty + " can't be empty"}</Text>
+      )}
     </View>
   );
 };
 export default EditItemScreen;
+
+const style = StyleSheet.create({
+  emptyText: {
+    color: "red",
+    padding: 15,
+    alignSelf: "center",
+  },
+});
