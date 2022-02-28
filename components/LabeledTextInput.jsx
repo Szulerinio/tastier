@@ -16,6 +16,7 @@ function LabeledTextInput(props) {
         type="text"
         name={label}
         value={value}
+        maxLength={maxLength}
         id=""
         onChangeText={changeHandler}
       />

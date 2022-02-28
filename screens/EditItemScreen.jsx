@@ -84,18 +84,21 @@ const EditItemScreen = ({ route, navigation }) => {
         value={enteredType}
         label="type"
         onChange={handleTypeChange}
+        maxLength={20}
       ></LabeledTextInput>
       <LabeledTextInput
         key={2}
         value={enteredBrand}
         label="brand"
         onChange={handleBrandChange}
+        maxLength={20}
       ></LabeledTextInput>
       <LabeledTextInput
         key={3}
         value={enteredName}
         label="name"
         onChange={handleNameChange}
+        maxLength={40}
       ></LabeledTextInput>
       <LabeledButtonGroup
         label="rate"
