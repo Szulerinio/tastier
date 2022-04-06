@@ -5,7 +5,12 @@ import React from "react";
 import { useTheme } from '@react-navigation/native';
 
 function HomeScreen({ navigation }) {
+  React.useLayoutEffect(()=>{ 
+    navigation.setOptions({
+      headerShown:false,
 
+    })
+  })
   const { colors } = useTheme();
 
   return (
