@@ -19,7 +19,7 @@ const EditItemScreen = ({ route, navigation }) => {
   const [enteredRate, setEnteredRate] = useState(rate);
   const [empty, setEmpty] = useState("");
 
-  const handleSave = () => {
+  const handleSave = async () => {
     //check if empty fields are empty
     if (enteredType == "") {
       setEmpty("type");
@@ -34,7 +34,7 @@ const EditItemScreen = ({ route, navigation }) => {
       return;
     }
 
-    ctx.editData({
+    await ctx.editData({
       code: code,
       type: enteredType,
       brand: enteredBrand,

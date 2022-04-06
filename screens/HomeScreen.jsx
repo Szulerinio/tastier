@@ -1,18 +1,28 @@
 import { StatusBar } from "expo-status-bar";
 import { View, Text } from "react-native";
-import { Button } from "react-native";
+import React from "react";
+import { useTheme } from '@react-navigation/native';
+import ButtonPrimary from "../components/ButtonPrimary";
 
 function HomeScreen({ navigation }) {
-  console.log(navigation.getState());
+  React.useLayoutEffect(()=>{ 
+    navigation.setOptions({
+      headerShown:false,
+
+    })
+  })
+  const { colors } = useTheme();
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <StatusBar style="auto" />
       <Text>Home Screen</Text>
-      <Button
+      <ButtonPrimary
+        color={colors.primary}
         onPress={() => navigation.navigate("Scanner", {})}
         title="Zeskanuj kod kreskowy"
-      ></Button>
-      <Button
+      ></ButtonPrimary>
+      <ButtonPrimary
         onPress={() =>
           navigation.navigate("Filter", {
             type: "",
@@ -22,8 +32,8 @@ function HomeScreen({ navigation }) {
           })
         }
         title="Wyszukaj produkt"
-      ></Button>
-      <Button
+      ></ButtonPrimary>
+      <ButtonPrimary
         onPress={() =>
           navigation.navigate("List", {
             type: "",
@@ -33,7 +43,7 @@ function HomeScreen({ navigation }) {
           })
         }
         title="Twoje produkty"
-      ></Button>
+      ></ButtonPrimary>
     </View>
   );
 }

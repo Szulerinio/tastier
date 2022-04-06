@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { View, Text, FlatList } from "react-native";
-import { Button } from "react-native";
 import ItemListElement from "../components/ItemListElement";
 import React, { useContext } from "react";
 import DataContext from "../context/data-context";
+import ButtonPrimary from "../components/ButtonPrimary";
 
 function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -50,10 +50,10 @@ const ItemListScreen = ({ route, navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
+        <ButtonPrimary
           onPress={() => navigation.navigate("Filter", { ...params })}
           title={"Filter"}
-        ></Button>
+        ></ButtonPrimary>
       ),
     });
   });

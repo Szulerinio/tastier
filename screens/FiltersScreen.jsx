@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Button, StyleSheet } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
+import ButtonPrimary from "../components/ButtonPrimary";
 
 function FiltersScreen({ route, navigation }) {
   console.log("FILTER SCREEN");
@@ -48,7 +49,7 @@ function FiltersScreen({ route, navigation }) {
           setSelectedRates(value);
         }}
       ></LabeledButtonGroup>
-      <Button
+      <ButtonPrimary
         title="filter"
         style={styles.button}
         onPress={() => {
@@ -59,7 +60,7 @@ function FiltersScreen({ route, navigation }) {
             rate: selectedRates || [],
           });
         }}
-      ></Button>
+      ></ButtonPrimary>
     </View>
   );
 }
