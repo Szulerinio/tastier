@@ -1,14 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import { View, Text } from "react-native";
 import { Button } from "react-native";
+import React from "react";
+import { useTheme } from '@react-navigation/native';
 
 function HomeScreen({ navigation }) {
-  console.log(navigation.getState());
+
+  const { colors } = useTheme();
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <StatusBar style="auto" />
       <Text>Home Screen</Text>
       <Button
+        color={colors.primary}
         onPress={() => navigation.navigate("Scanner", {})}
         title="Zeskanuj kod kreskowy"
       ></Button>
