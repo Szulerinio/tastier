@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
 import ButtonPrimary from "../components/ButtonPrimary";
@@ -51,15 +51,17 @@ function FiltersScreen({ route, navigation }) {
       ></LabeledButtonGroup>
       <ButtonPrimary
         title="filter"
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("List", {
-            type: enteredType || "",
-            brand: enteredBrand || "",
-            name: enteredName || "",
-            rate: selectedRates || [],
-          });
+        buttonProps= {{
+          onPress:() => {
+            navigation.navigate("List", {
+              type: enteredType || "",
+              brand: enteredBrand || "",
+              name: enteredName || "",
+              rate: selectedRates || [],
+            })
+          }
         }}
+        buttonStyle={styles.button}
       ></ButtonPrimary>
     </View>
   );

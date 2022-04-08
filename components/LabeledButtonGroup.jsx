@@ -17,7 +17,10 @@ function LabeledButtonGroup(props) {
   const buttons = selectMultiple ? (
     <ButtonGroup
     selectedButtonStyle={{backgroundColor: colors.primary}}
+    selectedTextStyle={{color: colors.primaryText}}
     buttonStyle={{backgroundColor:colors.card}}
+    innerBorderStyle={{color:colors.border, width:0}}
+    textStyle={{color: colors.text}}
       buttons={["0", "1", "2", "3", "4", "5"]}
       selectedIndexes={selectedIndexes}
       selectMultiple
@@ -29,19 +32,24 @@ function LabeledButtonGroup(props) {
   ) : (
     <ButtonGroup
     selectedButtonStyle={{backgroundColor: colors.primary}}
+    selectedTextStyle={{color: colors.primaryText}}
     buttonStyle={{backgroundColor:colors.card}}
+    innerBorderStyle={{color:colors.border, width:1}}
+    textStyle={{color: colors.text}}
       buttons={["0", "1", "2", "3", "4", "5"]}
       selectedIndex={selectedIndexes}
       onPress={(value) => {
         changeHandler(value);
       }}
-      containerStyle={{ marginBottom: 20 }}
+      containerStyle={{ marginBottom: 20, ...{borderWidth:1, borderColor:colors.border
+        , backgroundColor:colors.background // ButtonGorup has broken pixels, proabaly should write this compoenent by myself
+      }}}
     />
   );
 
   return (
     <>
-      <Text style={labeledComponentStyle.label}>{label}</Text>
+      <Text style={{...labeledComponentStyle.label, color:colors.primary}}>{label}</Text>
       {buttons}
     </>
   );

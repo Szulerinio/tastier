@@ -51,7 +51,9 @@ const ItemListScreen = ({ route, navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <ButtonPrimary
-          onPress={() => navigation.navigate("Filter", { ...params })}
+        buttonProps ={{
+          onPress:() => navigation.navigate("Filter", { ...params })
+        }}
           title={"Filter"}
         ></ButtonPrimary>
       ),

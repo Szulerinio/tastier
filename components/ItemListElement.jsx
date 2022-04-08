@@ -1,40 +1,46 @@
 import { Text, Pressable } from "react-native";
 import { Card } from "react-native-elements";
+import { useTheme } from "@react-navigation/native";
+import CardPrimary from "./CardPrimary";
+import TextPrimary from "./TextPrimary";
 
 const ItemListElement = ({ data, navigation }) => {
   const { code, type, brand, name, rate } = data;
   // console.log("Code: " + code);
+  
+  const { colors } = useTheme();
+
   return (
     <Pressable
       onPress={() => {
         navigation.navigate("Item", { code });
       }}
     >
-      <Card>
+      <CardPrimary>
         <Text
           style={{
             textAlign: "center",
           }}
         >
-          <Text>
+          <TextPrimary>
             {type}
             {"\n"}
-          </Text>
-          <Text>
+          </TextPrimary>
+          <TextPrimary>
             {brand} {"\n"}
-          </Text>
-          <Text>
+          </TextPrimary>
+          <TextPrimary>
             {name} {"\n"}
-          </Text>
-          <Text>
+          </TextPrimary>
+          <TextPrimary>
             Ocena: {rate} {"\n"}
-          </Text>
-          <Text>
+          </TextPrimary>
+          <TextPrimary>
             {/* {code} */}
             {"\n"}
-          </Text>
+          </TextPrimary>
         </Text>
-      </Card>
+      </CardPrimary>
     </Pressable>
   );
 };
