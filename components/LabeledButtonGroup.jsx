@@ -1,8 +1,6 @@
 import { ButtonGroup } from "react-native-elements";
-
 import { Text } from "react-native";
 import labeledComponentStyle from "./styles/labeledComponentStyle";
-
 import { useTheme } from '@react-navigation/native';
 
 

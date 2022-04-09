@@ -5,8 +5,8 @@ import LabeledButtonGroup from "../components/LabeledButtonGroup";
 import ButtonPrimary from "../components/ButtonPrimary";
 
 function FiltersScreen({ route, navigation }) {
-  console.log("FILTER SCREEN");
   const { type, brand, name, rate } = route.params;
+  
   const [enteredType, setEnteredType] = useState(type);
   const [enteredBrand, setEnteredBrand] = useState(brand);
   const [enteredName, setEnteredName] = useState(name);

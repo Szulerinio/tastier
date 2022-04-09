@@ -1,18 +1,13 @@
-import { useState, useContext } from "react";
-import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { Text, View, TouchableOpacity, Image, StyleSheet, useColorScheme } from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
-import React from "react";
 import DataContext from "../context/data-context";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
-
-import { useColorScheme } from "react-native";
 
 const EditItemScreen = ({ route, navigation }) => {
   const scheme = useColorScheme()
   const { code } = route.params;
   const ctx = useContext(DataContext);
-  console.log("tutaj 3 ");
-  console.log(code);
   const temp = ctx.items.find((item) => item.code == code);
   const { type = "", brand = "", name = "", rate = 0 } = temp || "";
   const [enteredType, setEnteredType] = useState(type);
@@ -22,7 +17,7 @@ const EditItemScreen = ({ route, navigation }) => {
   const [empty, setEmpty] = useState("");
 
   const handleSave = async () => {
-    //check if empty fields are empty
+    //check if fields are empty
     if (enteredType == "") {
       setEmpty("type");
       return;
@@ -128,7 +123,7 @@ const EditItemScreen = ({ route, navigation }) => {
         }}
       ></LabeledButtonGroup>
       {empty != "" && (
-        <Text style={style.emptyText}>{empty + " can't be empty"}</Text>
+        <Text style={style.errorEmptyText}>{empty + " can't be empty"}</Text>
       )}
     </View>
   );
@@ -136,7 +131,7 @@ const EditItemScreen = ({ route, navigation }) => {
 export default EditItemScreen;
 
 const style = StyleSheet.create({
-  emptyText: {
+  errorEmptyText: {
     color: "red",
     padding: 15,
     alignSelf: "center",

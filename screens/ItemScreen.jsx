@@ -1,16 +1,14 @@
-import { Image, Text, TouchableOpacity } from "react-native";
+import { Image, useColorScheme, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
 import DataContext from "../context/data-context";
 import CardThemed from "../components/CardThemed";
 import TextThemed from "../components/TextThemed";
-import { useColorScheme } from "react-native";
 
 function ItemScreen({ route, navigation }) {
   const { code } = route.params;
   const scheme = useColorScheme()
-
   const ctx = useContext(DataContext);
-  console.log("tutaj 2 ");
+  
   const { type, brand, name, rate } = ctx.items.find(
     (item) => item.code == code
   );
