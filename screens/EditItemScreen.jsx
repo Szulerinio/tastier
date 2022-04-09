@@ -5,8 +5,10 @@ import React from "react";
 import DataContext from "../context/data-context";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
 
+import { useColorScheme } from "react-native";
+
 const EditItemScreen = ({ route, navigation }) => {
-  console.log("EDIT SCREEN");
+  const scheme = useColorScheme()
   const { code } = route.params;
   const ctx = useContext(DataContext);
   console.log("tutaj 3 ");
@@ -88,7 +90,7 @@ const EditItemScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={handleSave}>
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
-            source={require("../assets/icons8-save-30.png")}
+            source={ scheme=== 'dark'? require("../assets/saveLight.png") : require("../assets/saveDark.png")}
           />
         </TouchableOpacity>
       ),

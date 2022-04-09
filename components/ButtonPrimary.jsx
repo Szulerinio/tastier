@@ -3,13 +3,14 @@ import { StyleSheet } from "react-native";
 import { useTheme } from '@react-navigation/native';
 function ButtonPrimary(props) {
   const { colors } = useTheme();
-  const {buttonStyle, buttonProps, textStyle, title} = props
+  const {buttonStyle, buttonProps, textStyle, title, children} = props
 
-
+  
   return (
   <TouchableOpacity  
   {...buttonProps}style={{...styles.button, ...buttonStyle, backgroundColor: colors.primary}}>
     <Text style={{...styles.text, ...textStyle, color:colors.primaryText}}> {title} </Text>
+    {children}
   </TouchableOpacity>
 
   );

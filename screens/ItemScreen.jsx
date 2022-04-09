@@ -3,9 +3,11 @@ import React, { useContext } from "react";
 import DataContext from "../context/data-context";
 import CardThemed from "../components/CardThemed";
 import TextThemed from "../components/TextThemed";
+import { useColorScheme } from "react-native";
 
 function ItemScreen({ route, navigation }) {
   const { code } = route.params;
+  const scheme = useColorScheme()
 
   const ctx = useContext(DataContext);
   console.log("tutaj 2 ");
@@ -19,7 +21,7 @@ function ItemScreen({ route, navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Edit", { code })}>
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
-            source={require("../assets/icons8-edit-24.png")}
+            source={ scheme=== 'dark'? require("../assets/pencilLight.png") : require("../assets/pencilDark.png")}
           />
         </TouchableOpacity>
       ),
@@ -28,7 +30,7 @@ function ItemScreen({ route, navigation }) {
 
   return (
     <CardThemed>
-      <Text>{"code: " + code}</Text>
+      <TextThemed>{"code: " + code}</TextThemed>
       <TextThemed>{"type: " + type}</TextThemed>
       <TextThemed>{"brand: " + brand}</TextThemed>
       <TextThemed>{"name: " + name}</TextThemed>

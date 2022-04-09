@@ -1,11 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import React from "react";
 import { useTheme } from '@react-navigation/native';
 import ButtonPrimary from "../components/ButtonPrimary";
 import { color } from "react-native-elements/dist/helpers";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { useColorScheme } from "react-native";
+
 
 function HomeScreen({ navigation }) {
   React.useLayoutEffect(()=>{ 
@@ -14,6 +17,8 @@ function HomeScreen({ navigation }) {
 
     })
   })
+
+  const scheme = useColorScheme()
   return (
     <SafeAreaView style={{ flex: 1}}
 >
@@ -27,7 +32,10 @@ function HomeScreen({ navigation }) {
         buttonStyle = {styles.button}
         
         title="Zeskanuj kod kreskowy"
-        ></ButtonPrimary>
+        ><Image
+        style={{ margin: 10 }}
+        source={ scheme=== 'dark'? require("../assets/codeLight.png") : require("../assets/codeDark.png")}
+      /></ButtonPrimary>
       <ButtonPrimary
       buttonProps={{
         onPress:() =>
@@ -41,7 +49,10 @@ function HomeScreen({ navigation }) {
       buttonStyle = {styles.button}
       
       title="Wyszukaj produkt"
-      ></ButtonPrimary>
+      ><Image
+      style={{ margin: 10 }}
+      source={ scheme=== 'dark'? require("../assets/searchLight.png") : require("../assets/searchDark.png")}
+    /></ButtonPrimary>
       <ButtonPrimary
       buttonProps = {{
         onPress:() =>
@@ -54,7 +65,11 @@ function HomeScreen({ navigation }) {
       }}
       buttonStyle = {styles.button}
       title="Twoje produkty"
-      ></ButtonPrimary>
+      >
+      <Image
+        style={{ margin: 10 }}
+        source={ scheme=== 'dark'? require("../assets/itemsLight.png") : require("../assets/itemsDark.png")}
+      /></ButtonPrimary>
     </View>
 </SafeAreaView>
   );

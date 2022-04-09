@@ -1,9 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import ItemListElement from "../components/ItemListElement";
 import React, { useContext } from "react";
 import DataContext from "../context/data-context";
 import ButtonPrimary from "../components/ButtonPrimary";
+import TextThemed from "../components/TextThemed";
 
 function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -75,11 +76,11 @@ const ItemListScreen = ({ route, navigation }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.code}
         ListEmptyComponent={
-          <Text>"Brak produktów paujących do obecnych filtrów"</Text>
+          <TextThemed>"Brak produktów paujących do obecnych filtrów"</TextThemed>
         }
       />
 
-      <Text>
+      <TextThemed>
         {"Filtry :" +
           noAccent(params.type) +
           ", " +
@@ -88,7 +89,7 @@ const ItemListScreen = ({ route, navigation }) => {
           noAccent(params.name) +
           ", " +
           params.rate}
-      </Text>
+      </TextThemed>
       {/* <Button
         onPress={() =>
           ctx.editData({
