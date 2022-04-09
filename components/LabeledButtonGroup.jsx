@@ -19,7 +19,7 @@ function LabeledButtonGroup(props) {
     selectedButtonStyle={{backgroundColor: colors.primary}}
     selectedTextStyle={{color: colors.primaryText}}
     buttonStyle={{backgroundColor:colors.card}}
-    innerBorderStyle={{color:colors.border, width:0}}
+    innerBorderStyle={{color:colors.border, width:1}}
     textStyle={{color: colors.text}}
       buttons={["0", "1", "2", "3", "4", "5"]}
       selectedIndexes={selectedIndexes}
@@ -27,7 +27,9 @@ function LabeledButtonGroup(props) {
       onPress={(value) => {
         changeHandler(value);
       }}
-      containerStyle={{ marginBottom: 20 }}
+      containerStyle={{ marginBottom: 20, ...{borderWidth:1, borderColor:colors.border
+        , backgroundColor:colors.background // ButtonGorup has broken pixels, proabaly should write this compoenent by myself
+      }}}
     />
   ) : (
     <ButtonGroup
@@ -42,7 +44,7 @@ function LabeledButtonGroup(props) {
         changeHandler(value);
       }}
       containerStyle={{ marginBottom: 20, ...{borderWidth:1, borderColor:colors.border
-        , backgroundColor:colors.background // ButtonGorup has broken pixels, proabaly should write this compoenent by myself
+        , backgroundColor:colors.border // ButtonGorup has broken pixels, proabaly should write this compoenent by myself
       }}}
     />
   );

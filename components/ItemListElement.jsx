@@ -1,8 +1,8 @@
 import { Text, Pressable } from "react-native";
 import { Card } from "react-native-elements";
 import { useTheme } from "@react-navigation/native";
-import CardPrimary from "./CardPrimary";
-import TextPrimary from "./TextPrimary";
+import CardThemed from "./CardThemed";
+import TextThemed from "./TextThemed";
 
 const ItemListElement = ({ data, navigation }) => {
   const { code, type, brand, name, rate } = data;
@@ -16,31 +16,31 @@ const ItemListElement = ({ data, navigation }) => {
         navigation.navigate("Item", { code });
       }}
     >
-      <CardPrimary>
+      <CardThemed>
         <Text
           style={{
             textAlign: "center",
           }}
         >
-          <TextPrimary>
+          <TextThemed>
             {type}
             {"\n"}
-          </TextPrimary>
-          <TextPrimary>
+          </TextThemed>
+          <TextThemed>
             {brand} {"\n"}
-          </TextPrimary>
-          <TextPrimary>
+          </TextThemed>
+          <TextThemed>
             {name} {"\n"}
-          </TextPrimary>
-          <TextPrimary>
+          </TextThemed>
+          <TextThemed>
             Ocena: {rate} {"\n"}
-          </TextPrimary>
-          <TextPrimary>
+          </TextThemed>
+          <TextThemed>
             {/* {code} */}
             {"\n"}
-          </TextPrimary>
+          </TextThemed>
         </Text>
-      </CardPrimary>
+      </CardThemed>
     </Pressable>
   );
 };

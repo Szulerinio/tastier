@@ -1,9 +1,8 @@
 import { Image, Text, TouchableOpacity } from "react-native";
-import { Card } from "react-native-elements/dist/card/Card";
 import React, { useContext } from "react";
 import DataContext from "../context/data-context";
-import CardPrimary from "../components/CardPrimary";
-import TextPrimary from "../components/TextPrimary";
+import CardThemed from "../components/CardThemed";
+import TextThemed from "../components/TextThemed";
 
 function ItemScreen({ route, navigation }) {
   const { code } = route.params;
@@ -28,13 +27,13 @@ function ItemScreen({ route, navigation }) {
   });
 
   return (
-    <CardPrimary>
-      <TextPrimary>{"code: " + code}</TextPrimary>
-      <TextPrimary>{"type: " + type}</TextPrimary>
-      <TextPrimary>{"brand: " + brand}</TextPrimary>
-      <TextPrimary>{"name: " + name}</TextPrimary>
-      <TextPrimary>{"rate: " + rate}</TextPrimary>
-    </CardPrimary>
+    <CardThemed>
+      <Text>{"code: " + code}</Text>
+      <TextThemed>{"type: " + type}</TextThemed>
+      <TextThemed>{"brand: " + brand}</TextThemed>
+      <TextThemed>{"name: " + name}</TextThemed>
+      <TextThemed>{"rate: " + rate}</TextThemed>
+    </CardThemed>
   );
 }
 export default ItemScreen;
