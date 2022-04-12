@@ -1,42 +1,44 @@
 import React, { useState, useContext } from "react";
-import { Text, View, TouchableOpacity, Image, StyleSheet, useColorScheme } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  useColorScheme,
+} from "react-native";
 import LabeledTextInput from "../components/LabeledTextInput";
 import DataContext from "../context/data-context";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
 
 const EditItemScreen = ({ route, navigation }) => {
-  const scheme = useColorScheme()
+  const scheme = useColorScheme();
   const { code } = route.params;
   const ctx = useContext(DataContext);
   const temp = ctx.items.find((item) => item.code == code);
   const { type = "", brand = "", name = "", rate = 0 } = temp || "";
-  const [enteredType, setEnteredType] = useState(type);
-  const [enteredBrand, setEnteredBrand] = useState(brand);
-  const [enteredName, setEnteredName] = useState(name);
-  const [enteredRate, setEnteredRate] = useState(rate);
+
+  const [values, setValues] = useState({ type, brand, name, rate });
   const [empty, setEmpty] = useState("");
 
   const handleSave = async () => {
     //check if fields are empty
-    if (enteredType == "") {
+    if (values.type == "") {
       setEmpty("type");
       return;
     }
-    if (enteredBrand == "") {
+    if (values.brand == "") {
       setEmpty("brand");
       return;
     }
-    if (enteredName == "") {
+    if (values.name == "") {
       setEmpty("name");
       return;
     }
 
     await ctx.editData({
       code: code,
-      type: enteredType,
-      brand: enteredBrand,
-      name: enteredName,
-      rate: enteredRate,
+      ...values,
     });
     if (temp == undefined) {
       const routes = [
@@ -63,20 +65,11 @@ const EditItemScreen = ({ route, navigation }) => {
     }
   };
 
-  const handleTypeChange = (event) => {
-    if (empty == "type") setEmpty("");
-    setEnteredType(event);
-  };
-  const handleBrandChange = (event) => {
-    if (empty == "brand") setEmpty("");
-    setEnteredBrand(event);
-  };
-  const handleNameChange = (event) => {
-    if (empty == "name") setEmpty("");
-    setEnteredName(event);
-  };
-  const handleRateChange = (event) => {
-    setEnteredRate(event);
+  const handleValueChange = (key, value) => {
+    if (empty == key) setEmpty("");
+    setValues((prevState) => {
+      return { ...prevState, [key]: value };
+    });
   };
 
   React.useLayoutEffect(() => {
@@ -85,41 +78,51 @@ const EditItemScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={handleSave}>
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
-            source={ scheme=== 'dark'? require("../assets/saveLight.png") : require("../assets/saveDark.png")}
+            source={
+              scheme === "dark"
+                ? require("../assets/saveLight.png")
+                : require("../assets/saveDark.png")
+            }
           />
         </TouchableOpacity>
       ),
     });
-  });
+  }, [route, navigation, handleSave]);
 
   return (
     <View>
       <LabeledTextInput
         key={1}
-        value={enteredType}
+        value={values.type}
         label="type"
-        onChange={handleTypeChange}
+        onChange={(value) => {
+          handleValueChange("type", value);
+        }}
         maxLength={20}
       ></LabeledTextInput>
       <LabeledTextInput
         key={2}
-        value={enteredBrand}
+        value={values.brand}
         label="brand"
-        onChange={handleBrandChange}
+        onChange={(value) => {
+          handleValueChange("brand", value);
+        }}
         maxLength={20}
       ></LabeledTextInput>
       <LabeledTextInput
         key={3}
-        value={enteredName}
+        value={values.name}
         label="name"
-        onChange={handleNameChange}
+        onChange={(value) => {
+          handleValueChange("name", value);
+        }}
         maxLength={40}
       ></LabeledTextInput>
       <LabeledButtonGroup
         label="rate"
-        selectedIndexes={enteredRate}
+        selectedIndexes={values.rate}
         onChange={(value) => {
-          handleRateChange(value);
+          handleValueChange("rate", value);
         }}
       ></LabeledButtonGroup>
       {empty != "" && (

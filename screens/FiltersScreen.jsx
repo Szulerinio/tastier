@@ -6,60 +6,52 @@ import ButtonPrimary from "../components/ButtonPrimary";
 
 function FiltersScreen({ route, navigation }) {
   const { type, brand, name, rate } = route.params;
-  
-  const [enteredType, setEnteredType] = useState(type);
-  const [enteredBrand, setEnteredBrand] = useState(brand);
-  const [enteredName, setEnteredName] = useState(name);
-  const [selectedRates, setSelectedRates] = useState(rate);
-
-  const handleTypeFilterChange = (event) => {
-    setEnteredType(event);
-  };
-  const handleBrandFilterChange = (event) => {
-    setEnteredBrand(event);
-  };
-  const handleNameFilterChange = (event) => {
-    setEnteredName(event);
+  const [values, setValues] = useState({ type, brand, name, rate });
+  const handleValueChange = (key, value) => {
+    setValues((prevState) => {
+      return { ...prevState, [key]: value };
+    });
   };
   return (
     <View>
       <LabeledTextInput
         key={0}
         label="Type"
-        value={enteredType}
-        onChange={handleTypeFilterChange}
+        value={values.type}
+        onChange={(value) => {
+          handleValueChange("type", value);
+        }}
       ></LabeledTextInput>
       <LabeledTextInput
         key={1}
         label="Brand"
-        value={enteredBrand}
-        onChange={handleBrandFilterChange}
+        value={values.brand}
+        onChange={(value) => {
+          handleValueChange("brand", value);
+        }}
       ></LabeledTextInput>
       <LabeledTextInput
         key={2}
         label="Name"
-        value={enteredName}
-        onChange={handleNameFilterChange}
+        value={values.name}
+        onChange={(value) => {
+          handleValueChange("name", value);
+        }}
       ></LabeledTextInput>
       <LabeledButtonGroup
         label="rate"
         selectMultiple
-        selectedIndexes={selectedRates}
+        selectedIndexes={values.rate}
         onChange={(value) => {
-          setSelectedRates(value);
+          handleValueChange("rate", value);
         }}
       ></LabeledButtonGroup>
       <ButtonPrimary
         title="filter"
-        buttonProps= {{
-          onPress:() => {
-            navigation.navigate("List", {
-              type: enteredType || "",
-              brand: enteredBrand || "",
-              name: enteredName || "",
-              rate: selectedRates || [],
-            })
-          }
+        buttonProps={{
+          onPress: () => {
+            navigation.navigate("List", { ...values });
+          },
         }}
         buttonStyle={styles.button}
       ></ButtonPrimary>

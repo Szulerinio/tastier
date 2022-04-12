@@ -1,28 +1,33 @@
-import { TouchableOpacity, Text } from "react-native";
-import { StyleSheet } from "react-native";
-import { useTheme } from '@react-navigation/native';
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { useTheme } from "@react-navigation/native";
 function ButtonPrimary(props) {
   const { colors } = useTheme();
-  const {buttonStyle, buttonProps, textStyle, title, children} = props
+  const { buttonStyle, buttonProps, textStyle, title, children } = props;
 
-  
   return (
-  <TouchableOpacity  
-  {...buttonProps}style={{...styles.button, ...buttonStyle, backgroundColor: colors.primary}}>
-    <Text style={{...styles.text, ...textStyle, color:colors.primaryText}}> {title} </Text>
-    {children}
-  </TouchableOpacity>
-
+    <TouchableOpacity
+      {...buttonProps}
+      style={{
+        ...styles.button,
+        ...buttonStyle,
+        backgroundColor: colors.primary,
+      }}
+    >
+      <Text style={{ ...styles.text, ...textStyle, color: colors.primaryText }}>
+        {title}
+      </Text>
+      {children}
+    </TouchableOpacity>
   );
 }
-export default ButtonPrimary
+export default ButtonPrimary;
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 5,
-    borderRadius:2
+    borderRadius: 2,
   },
-  text:{
-    textTransform:"uppercase"
-  }
-})
+  text: {
+    textTransform: "uppercase",
+  },
+});

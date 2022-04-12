@@ -27,9 +27,7 @@ const ItemListElement = ({ data, navigation }) => {
           <TextThemed>
             {name} {"\n"}
           </TextThemed>
-          <TextThemed>
-            Ocena: {rate} 
-          </TextThemed>
+          <TextThemed>Ocena: {rate}</TextThemed>
         </Text>
       </CardThemed>
     </Pressable>

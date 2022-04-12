@@ -4,7 +4,7 @@ import DataContext from "./data-context";
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("db.testDb"); // returns Database object
 
-let dummyData = [
+const dummyData = [
   {
     code: "0",
     type: "Piwo",
@@ -61,7 +61,7 @@ const DataProvider = (props) => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "UPDATE items SET type=?, brand=?, name=?, rate=? WHERE code == ?",
+          "UPDATE items SET type=?, brand=?, name=?, rate=? WHERE code = ?",
           [obj.type, obj.brand, obj.name, obj.rate, obj.code],
           () => {
             resolve("Done");
@@ -120,9 +120,7 @@ const DataProvider = (props) => {
         .then(() => {
           return selectAndUpdateState();
         })
-        .then(() => {
-          resolve();
-        });
+        .then(resolve);
     });
   };
 

@@ -18,10 +18,7 @@ export default function BarCodeScannerElemet(props) {
     props.onScan(data);
   };
 
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
+  if (!hasPermission) {
     return <Text>No access to camera</Text>;
   }
 

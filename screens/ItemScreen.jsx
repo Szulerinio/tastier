@@ -6,9 +6,9 @@ import TextThemed from "../components/TextThemed";
 
 function ItemScreen({ route, navigation }) {
   const { code } = route.params;
-  const scheme = useColorScheme()
+  const scheme = useColorScheme();
   const ctx = useContext(DataContext);
-  
+
   const { type, brand, name, rate } = ctx.items.find(
     (item) => item.code == code
   );
@@ -19,7 +19,11 @@ function ItemScreen({ route, navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Edit", { code })}>
           <Image
             style={{ width: 30, height: 30, marginRight: 10 }}
-            source={ scheme=== 'dark'? require("../assets/pencilLight.png") : require("../assets/pencilDark.png")}
+            source={
+              scheme === "dark"
+                ? require("../assets/pencilLight.png")
+                : require("../assets/pencilDark.png")
+            }
           />
         </TouchableOpacity>
       ),

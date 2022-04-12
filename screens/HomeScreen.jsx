@@ -24,7 +24,7 @@ function HomeScreen({ navigation }) {
           title="Zeskanuj kod kreskowy"
         >
           <Image
-            style={{ margin: 10 }}
+            style={styles.buttonImage}
             source={
               scheme === "dark"
                 ? require("../assets/codeLight.png")
@@ -46,7 +46,7 @@ function HomeScreen({ navigation }) {
           title="Wyszukaj produkt"
         >
           <Image
-            style={{ margin: 10 }}
+            style={styles.buttonImage}
             source={
               scheme === "dark"
                 ? require("../assets/searchLight.png")
@@ -68,7 +68,7 @@ function HomeScreen({ navigation }) {
           title="Twoje produkty"
         >
           <Image
-            style={{ margin: 10 }}
+            style={styles.buttonImage}
             source={
               scheme === "dark"
                 ? require("../assets/itemsLight.png")
@@ -88,4 +88,7 @@ const styles = StyleSheet.create({
     marginVertical: "10%",
   },
   container: { flex: 1, justifyContent: "center", margin: "10%" },
+  buttonImage: {
+    margin: 10,
+  },
 });
