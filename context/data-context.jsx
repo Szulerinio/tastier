@@ -10,4 +10,5 @@ export default DataContext = React.createContext({
     },
   ],
   editData: () => {},
+  deleteData: () => {},
 });

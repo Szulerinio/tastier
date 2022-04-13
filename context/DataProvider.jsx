@@ -74,7 +74,7 @@ const DataProvider = (props) => {
     });
   };
 
-  const insertIntoDtabase = (obj) => {
+  const insertIntoDatabase = (obj) => {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -107,6 +107,23 @@ const DataProvider = (props) => {
       });
     });
   };
+
+  const deleteFromDatabase = (obj) => {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "DELETE FROM items WHERE code = ?",
+          [obj.code],
+          (_, { rows }) => {
+            resolve(rows);
+          },
+          () => {
+            reject("SQL DELETE failed");
+          }
+        );
+      });
+    });
+  };
   const editDataHandler = (obj) => {
     return new Promise((resolve, reject) => {
       checkIfInDatabase(obj)
@@ -114,7 +131,7 @@ const DataProvider = (props) => {
           if (rows.length > 0) {
             return updateDatabase(obj);
           } else {
-            return insertIntoDtabase(obj);
+            return insertIntoDatabase(obj);
           }
         })
         .then(() => {
@@ -123,10 +140,25 @@ const DataProvider = (props) => {
         .then(resolve);
     });
   };
-
+  const deleteDataHandler = (obj) => {
+    return new Promise((resolve, reject) => {
+      checkIfInDatabase(obj)
+        .then((rows) => {
+          if (rows.length > 0) {
+            return deleteFromDatabase(obj);
+          }
+          return;
+        })
+        .then(() => {
+          return selectAndUpdateState();
+        })
+        .then(resolve);
+    });
+  };
   const itemsData = {
     items: itemsDataState,
     editData: editDataHandler,
+    deleteData: deleteDataHandler,
   };
 
   return (
