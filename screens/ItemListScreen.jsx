@@ -63,6 +63,7 @@ const ItemListScreen = ({ route, navigation }) => {
       <StatusBar style="auto" />
 
       <FlatList
+        style={{ width: "100%" }}
         data={filter(ctx.items, params)}
         renderItem={renderItem}
         keyExtractor={(item) => item.code}

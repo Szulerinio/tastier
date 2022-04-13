@@ -1,17 +1,18 @@
 import { Text, Pressable } from "react-native";
 import CardThemed from "./CardThemed";
 import TextThemed from "./TextThemed";
-
+import { View } from "react-native";
 const ItemListElement = ({ data, navigation }) => {
   const { code, type, brand, name, rate } = data;
 
   return (
     <Pressable
+      style={{ flex: 1 }}
       onPress={() => {
         navigation.navigate("Item", { code });
       }}
     >
-      <CardThemed>
+      <CardThemed containerStyle={{ flex: 1 }}>
         <Text
           style={{
             textAlign: "center",

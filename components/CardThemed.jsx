@@ -1,11 +1,15 @@
 import { Card } from "react-native-elements";
 import { useTheme } from "@react-navigation/native";
-function CardThemed(props) {
+function CardThemed({ containerStyle, ...rest }) {
   const { colors } = useTheme();
   return (
     <Card
-      {...props}
-      containerStyle={{ backgroundColor: colors.card, borderWidth: 0 }}
+      {...rest}
+      containerStyle={{
+        ...containerStyle,
+        backgroundColor: colors.card,
+        borderWidth: 0,
+      }}
     ></Card>
   );
 }
