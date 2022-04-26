@@ -20,7 +20,7 @@ const MyDarkTheme = {
     background: "rgb(36, 36, 36)",
     card: "rgb(27, 27, 27)",
     text: "rgb(255,255,255)",
-    border: "rgb(1, 0, 204)",
+    border: "rgb(1, 63, 109)",
     notification: "rgb(255, 69, 58)",
   },
 };
@@ -33,7 +33,7 @@ const MyLightTheme = {
     background: "rgb(242, 242, 242)",
     card: "rgb(255, 255, 255)",
     text: "rgb(28, 28, 30)",
-    border: "rgb(216, 216, 216)",
+    border: "rgb(0, 122, 255)",
     notification: "rgb(255, 59, 48)",
   },
 };

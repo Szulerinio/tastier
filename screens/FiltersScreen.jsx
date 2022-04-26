@@ -1,43 +1,48 @@
-import { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import LabeledTextInput from "../components/LabeledTextInput";
+import { useContext, useState } from "react";
+import { StyleSheet, ScrollView } from "react-native";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
 import ButtonPrimary from "../components/ButtonPrimary";
+import AutocompleteLabeledTextInput from "../components/AutocompleteLabeledTextInput";
+import dataContext from "../context/data-context";
 
 function FiltersScreen({ route, navigation }) {
   const { type, brand, name, rate } = route.params;
   const [values, setValues] = useState({ type, brand, name, rate });
+  const ctx = useContext(dataContext);
   const handleValueChange = (key, value) => {
     setValues((prevState) => {
       return { ...prevState, [key]: value };
     });
   };
   return (
-    <View>
-      <LabeledTextInput
+    <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="hadled">
+      <AutocompleteLabeledTextInput
         key={0}
         label="Type"
         value={values.type}
         onChange={(value) => {
           handleValueChange("type", value);
         }}
-      ></LabeledTextInput>
-      <LabeledTextInput
+        autocompleteData={ctx.items.map((item) => item.type)}
+      ></AutocompleteLabeledTextInput>
+      <AutocompleteLabeledTextInput
         key={1}
         label="Brand"
         value={values.brand}
         onChange={(value) => {
           handleValueChange("brand", value);
         }}
-      ></LabeledTextInput>
-      <LabeledTextInput
+        autocompleteData={ctx.items.map((item) => item.brand)}
+      ></AutocompleteLabeledTextInput>
+      <AutocompleteLabeledTextInput
         key={2}
         label="Name"
         value={values.name}
         onChange={(value) => {
           handleValueChange("name", value);
         }}
-      ></LabeledTextInput>
+        autocompleteData={ctx.items.map((item) => item.name)}
+      ></AutocompleteLabeledTextInput>
       <LabeledButtonGroup
         label="rate"
         selectMultiple
@@ -55,7 +60,7 @@ function FiltersScreen({ route, navigation }) {
         }}
         buttonStyle={styles.button}
       ></ButtonPrimary>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
