@@ -3,7 +3,7 @@ import labeledComponentStyle from "./styles/labeledComponentStyle";
 
 import { useTheme } from "@react-navigation/native";
 function LabeledTextInput(props) {
-  const { label, onChange, value, maxLength, onBlur } = props;
+  const { label, onChange, value, maxLength, onBlur, ...rest } = props;
   const { colors } = useTheme();
   return (
     <>
@@ -11,6 +11,7 @@ function LabeledTextInput(props) {
         {label}
       </Text>
       <TextInput
+        {...rest}
         style={{
           ...styles.input,
           backgroundColor: colors.card,

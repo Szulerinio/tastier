@@ -92,6 +92,13 @@ const EditItemScreen = ({ route, navigation }) => {
   return (
     <View>
       <LabeledTextInput
+        key={0}
+        value={code}
+        label="type"
+        editable={false}
+        maxLength={20}
+      ></LabeledTextInput>
+      <LabeledTextInput
         key={1}
         value={values.type}
         label="type"
