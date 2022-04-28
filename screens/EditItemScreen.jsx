@@ -23,15 +23,15 @@ const EditItemScreen = ({ route, navigation }) => {
 
   const handleSave = async () => {
     //check if fields are empty
-    if (values.type == "") {
+    if (values.type.trim() == "") {
       setEmpty("type");
       return;
     }
-    if (values.brand == "") {
+    if (values.brand.trim() == "") {
       setEmpty("brand");
       return;
     }
-    if (values.name == "") {
+    if (values.name.trim() == "") {
       setEmpty("name");
       return;
     }

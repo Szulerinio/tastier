@@ -62,7 +62,13 @@ const DataProvider = (props) => {
       db.transaction((tx) => {
         tx.executeSql(
           "UPDATE items SET type=?, brand=?, name=?, rate=? WHERE code = ?",
-          [obj.type, obj.brand, obj.name, obj.rate, obj.code],
+          [
+            obj.type.trim(),
+            obj.brand.trim(),
+            obj.name.trim(),
+            obj.rate,
+            obj.code,
+          ],
           () => {
             resolve("Done");
           },
@@ -79,7 +85,13 @@ const DataProvider = (props) => {
       db.transaction((tx) => {
         tx.executeSql(
           "INSERT INTO items (code, type, brand, name, rate) VALUES (?,?,?,?,?)",
-          [obj.code, obj.type, obj.brand, obj.name, obj.rate],
+          [
+            obj.code.trim(),
+            obj.type.trim(),
+            obj.brand.trim(),
+            obj.name,
+            obj.rate,
+          ],
           () => {
             resolve("Done");
           },
