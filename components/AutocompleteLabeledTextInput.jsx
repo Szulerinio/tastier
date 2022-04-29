@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
+
+// use in <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="hadled">
+
 const AutocompleteLabeledTextInput = ({
   label,
   onChange,

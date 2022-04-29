@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import {
   Text,
-  View,
+  ScrollView,
   TouchableOpacity,
   Image,
   StyleSheet,
   useColorScheme,
 } from "react-native";
+import AutocompleteLabeledTextInput from "../components/AutocompleteLabeledTextInput";
 import LabeledTextInput from "../components/LabeledTextInput";
 import DataContext from "../context/data-context";
 import LabeledButtonGroup from "../components/LabeledButtonGroup";
@@ -90,7 +91,7 @@ const EditItemScreen = ({ route, navigation }) => {
   }, [route, navigation, handleSave]);
 
   return (
-    <View>
+    <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="hadled">
       <LabeledTextInput
         key={0}
         value={code}
@@ -98,25 +99,27 @@ const EditItemScreen = ({ route, navigation }) => {
         editable={false}
         maxLength={20}
       ></LabeledTextInput>
-      <LabeledTextInput
+      <AutocompleteLabeledTextInput
         key={1}
         value={values.type}
         label="type"
         onChange={(value) => {
           handleValueChange("type", value);
         }}
+        autocompleteData={ctx.items.map((item) => item.type)}
         maxLength={20}
-      ></LabeledTextInput>
-      <LabeledTextInput
+      ></AutocompleteLabeledTextInput>
+      <AutocompleteLabeledTextInput
         key={2}
         value={values.brand}
         label="brand"
         onChange={(value) => {
           handleValueChange("brand", value);
         }}
+        autocompleteData={ctx.items.map((item) => item.brand)}
         maxLength={20}
-      ></LabeledTextInput>
-      <LabeledTextInput
+      ></AutocompleteLabeledTextInput>
+      <AutocompleteLabeledTextInput
         key={3}
         value={values.name}
         label="name"
@@ -124,7 +127,8 @@ const EditItemScreen = ({ route, navigation }) => {
           handleValueChange("name", value);
         }}
         maxLength={40}
-      ></LabeledTextInput>
+        autocompleteData={ctx.items.map((item) => item.value)}
+      ></AutocompleteLabeledTextInput>
       <LabeledButtonGroup
         label="rate"
         selectedIndexes={values.rate}
@@ -135,7 +139,7 @@ const EditItemScreen = ({ route, navigation }) => {
       {empty != "" && (
         <Text style={style.errorEmptyText}>{empty + " can't be empty"}</Text>
       )}
-    </View>
+    </ScrollView>
   );
 };
 export default EditItemScreen;
