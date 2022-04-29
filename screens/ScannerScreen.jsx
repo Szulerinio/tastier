@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import BarCodeScannerElemet from "../components/BarCodeScannerElemet";
+import CameraElemet from "../components/CameraElement";
 import DataContext from "../context/data-context";
 
 const ScanerScreen = ({ route, navigation }) => {
@@ -17,7 +17,7 @@ const ScanerScreen = ({ route, navigation }) => {
       routes: routes,
     });
   };
-  return <BarCodeScannerElemet onScan={scanHandler}></BarCodeScannerElemet>;
+  return <CameraElemet onScan={scanHandler}></CameraElemet>;
 };
 
 export default ScanerScreen;
