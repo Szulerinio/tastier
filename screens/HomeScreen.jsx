@@ -21,6 +21,7 @@ function HomeScreen({ navigation }) {
             onPress: () => navigation.navigate("Scanner", {}),
           }}
           buttonStyle={styles.button}
+          textStyle={styles.buttonText}
           title="Zeskanuj kod kreskowy"
         >
           <Image
@@ -43,6 +44,7 @@ function HomeScreen({ navigation }) {
               }),
           }}
           buttonStyle={styles.button}
+          textStyle={styles.buttonText}
           title="Wyszukaj produkt"
         >
           <Image
@@ -65,6 +67,7 @@ function HomeScreen({ navigation }) {
               }),
           }}
           buttonStyle={styles.button}
+          textStyle={styles.buttonText}
           title="Twoje produkty"
         >
           <Image
@@ -86,6 +89,9 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     marginVertical: "10%",
+  },
+  buttonText: {
+    fontSize: 18,
   },
   container: { flex: 1, justifyContent: "center", margin: "10%" },
   buttonImage: {

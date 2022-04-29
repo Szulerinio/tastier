@@ -13,10 +13,10 @@ function ButtonPrimary(props) {
         backgroundColor: colors.primary,
       }}
     >
+      {children}
       <Text style={{ ...styles.text, ...textStyle, color: colors.primaryText }}>
         {title}
       </Text>
-      {children}
     </TouchableOpacity>
   );
 }
