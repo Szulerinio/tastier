@@ -22,7 +22,7 @@ function HomeScreen({ navigation }) {
           }}
           buttonStyle={styles.button}
           textStyle={styles.buttonText}
-          title="Zeskanuj kod kreskowy"
+          title="Scan the barcode"
         >
           <Image
             style={styles.buttonImage}
@@ -45,7 +45,7 @@ function HomeScreen({ navigation }) {
           }}
           buttonStyle={styles.button}
           textStyle={styles.buttonText}
-          title="Wyszukaj produkt"
+          title="Search your products"
         >
           <Image
             style={styles.buttonImage}
@@ -68,7 +68,7 @@ function HomeScreen({ navigation }) {
           }}
           buttonStyle={styles.button}
           textStyle={styles.buttonText}
-          title="Twoje produkty"
+          title="Your items"
         >
           <Image
             style={styles.buttonImage}

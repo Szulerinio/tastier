@@ -44,7 +44,7 @@ function FiltersScreen({ route, navigation }) {
         autocompleteData={ctx.items.map((item) => item.name)}
       ></AutocompleteLabeledTextInput>
       <LabeledButtonGroup
-        label="rate"
+        label="Rate"
         selectMultiple
         selectedIndexes={values.rate}
         onChange={(value) => {

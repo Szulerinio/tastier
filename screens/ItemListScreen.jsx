@@ -68,14 +68,12 @@ const ItemListScreen = ({ route, navigation }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.code}
         ListEmptyComponent={
-          <TextThemed>
-            "Brak produktów paujących do obecnych filtrów"
-          </TextThemed>
+          <TextThemed>"No items match the selected filters"</TextThemed>
         }
       />
 
       <TextThemed>
-        {"Filtry :" +
+        {"Filters :" +
           noAccent(params.type) +
           ", " +
           noAccent(params.brand) +
