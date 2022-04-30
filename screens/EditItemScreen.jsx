@@ -95,7 +95,7 @@ const EditItemScreen = ({ route, navigation }) => {
       <LabeledTextInput
         key={0}
         value={code}
-        label="type"
+        label="code"
         editable={false}
         maxLength={20}
       ></LabeledTextInput>
@@ -127,7 +127,7 @@ const EditItemScreen = ({ route, navigation }) => {
           handleValueChange("name", value);
         }}
         maxLength={40}
-        autocompleteData={ctx.items.map((item) => item.value)}
+        autocompleteData={ctx.items.map((item) => item.name)}
       ></AutocompleteLabeledTextInput>
       <LabeledButtonGroup
         label="rate"
