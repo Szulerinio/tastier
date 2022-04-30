@@ -36,7 +36,9 @@ const AutocompleteLabeledTextInput = ({
   const filteredData = () => {
     return autocompleteData
       .filter((val) => {
-        return getNormalized(val).includes(getNormalized(value));
+        return val == undefined
+          ? false
+          : getNormalized(val).includes(getNormalized(value));
       })
       .slice(0, 3);
   };
