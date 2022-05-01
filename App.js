@@ -54,7 +54,10 @@ export default function App() {
       >
         <DataProvider>
           <Stack.Navigator
-            screenOptions={{ animation: "slide_from_left" }}
+            screenOptions={{
+              animation: "slide_from_left",
+              headerTitleAlign: "center",
+            }}
             initialRouteName="Home"
           >
             <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
