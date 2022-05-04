@@ -16,7 +16,7 @@ const getNormalized = (text) => {
 
 const ItemListScreen = ({ route, navigation }) => {
   const { params } = route;
-  const [isSortAscending, setIsSortDescending] = useState(false);
+  const [isSortAscending, setIsSortAscending] = useState(true);
   const [sortBy, setSortBy] = useState("name");
   const ctx = useContext(DataContext);
   const [overlayVisible, setOverlayVisible] = useState(false);
