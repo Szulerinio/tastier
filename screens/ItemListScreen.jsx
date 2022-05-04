@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 import DataContext from "../context/data-context";
 import ButtonPrimary from "../components/ButtonPrimary";
 import TextThemed from "../components/TextThemed";
-import OverlayThemed from "../components/OverlayThemed";
+import OverlayThemed_ItemList_sort from "../components/OverlayThemed_ItemList_sort";
 
 function noAccent(text) {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -35,19 +35,18 @@ const ItemListScreen = ({ route, navigation }) => {
     );
   };
 
-  const sortItems = (items, type, direction) => {
+  const sortItems = (items, type, isSortAscending) => {
     if (type == "") {
       return items;
     }
-    const orderAscending = type === "rate" ? true : false;
 
-    if (orderAscending)
+    if (isSortAscending)
       return items.sort((a, b) => {
-        return a[type] > b[type] ? -1 : 1;
+        return a[type] < b[type] ? -1 : 1;
       });
 
     return items.sort((a, b) => {
-      return a[type] < b[type] ? -1 : 1;
+      return a[type] > b[type] ? -1 : 1;
     });
   };
 
@@ -96,8 +95,7 @@ const ItemListScreen = ({ route, navigation }) => {
 
       <FlatList
         style={{ width: "100%" }}
-        data={sortItems(filter(ctx.items, params), sortBy, isSortAscending)} //Temporarly direction is not used
-        // data={filter(ctx.items, params)}
+        data={sortItems(filter(ctx.items, params), sortBy, isSortAscending)}
         renderItem={renderItem}
         keyExtractor={(item) => item.code}
         ListEmptyComponent={
@@ -116,44 +114,14 @@ const ItemListScreen = ({ route, navigation }) => {
           params.rate}
       </TextThemed>
 
-      <OverlayThemed isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
-        <ButtonPrimary
-          title="Sort by name"
-          buttonProps={{
-            onPress: () => {
-              setSortBy("name");
-              toggleOverlay();
-            },
-          }}
-        ></ButtonPrimary>
-        <ButtonPrimary
-          title="Sort by type"
-          buttonProps={{
-            onPress: () => {
-              setSortBy("type");
-              toggleOverlay();
-            },
-          }}
-        ></ButtonPrimary>
-        <ButtonPrimary
-          title="Sort by brand"
-          buttonProps={{
-            onPress: () => {
-              setSortBy("brand");
-              toggleOverlay();
-            },
-          }}
-        ></ButtonPrimary>
-        <ButtonPrimary
-          title="Sort by rate"
-          buttonProps={{
-            onPress: () => {
-              setSortBy("rate");
-              toggleOverlay();
-            },
-          }}
-        ></ButtonPrimary>
-      </OverlayThemed>
+      <OverlayThemed_ItemList_sort
+        isVisible={overlayVisible}
+        toggleOverlay={toggleOverlay}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        isSortAscending={isSortAscending}
+        setIsSortAscending={setIsSortAscending}
+      />
     </View>
   );
 };
