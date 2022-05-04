@@ -1,11 +1,10 @@
-import { Image, useColorScheme, TouchableOpacity, Button } from "react-native";
+import { Image, useColorScheme, TouchableOpacity } from "react-native";
 import React, { useContext, useState } from "react";
 import DataContext from "../context/data-context";
 import CardThemed from "../components/CardThemed";
 import TextThemed from "../components/TextThemed";
-import OverlayThemed from "../components/OverlayThemed";
-import ButtonPrimary from "../components/ButtonPrimary";
-import ButtonDanger from "../components/ButtonDanger";
+import OverlayThemed_ItemScreen from "../components/OverlayThemed_ItemScreen";
+
 function ItemScreen({ route, navigation }) {
   const { code } = route.params;
   const scheme = useColorScheme();
@@ -34,6 +33,12 @@ function ItemScreen({ route, navigation }) {
       rate: [],
     });
   };
+
+  const onPressEdit = () => {
+    toggleOverlay();
+    navigation.navigate("Edit", { code });
+  };
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -58,44 +63,18 @@ function ItemScreen({ route, navigation }) {
       <TextThemed>{"brand: " + brand}</TextThemed>
       <TextThemed>{"name: " + name}</TextThemed>
       <TextThemed>{"rate: " + rate}</TextThemed>
-      <OverlayThemed
-        isVisible={confirmOverlayVisible}
+      <OverlayThemed_ItemScreen
+        idEditOverlayVisible={overlayVisible}
+        onPressEdit={onPressEdit}
+        onDeletePress={toggleConfirmOverlay}
+        isConfirmOverlayVisible={confirmOverlayVisible}
+        onPressReturn={toggleConfirmOverlay}
+        onConfrimDelete={handleDelete}
         onBackdropPress={() => {
-          toggleConfirmOverlay();
-          toggleOverlay();
+          setConfirmOverlayVisible(false);
+          setOverlayVisible(false);
         }}
-      >
-        <TextThemed>Are you sure? This cannot be undone</TextThemed>
-        <ButtonDanger
-          title="Delete"
-          buttonProps={{
-            onPress: handleDelete,
-          }}
-        ></ButtonDanger>
-        <ButtonPrimary
-          title="Return"
-          buttonProps={{
-            onPress: toggleConfirmOverlay,
-          }}
-        ></ButtonPrimary>
-      </OverlayThemed>
-      <OverlayThemed isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
-        <ButtonPrimary
-          title="Edit"
-          buttonProps={{
-            onPress: () => {
-              toggleOverlay();
-              navigation.navigate("Edit", { code });
-            },
-          }}
-        ></ButtonPrimary>
-        <ButtonDanger
-          title="Delete"
-          buttonProps={{
-            onPress: toggleConfirmOverlay,
-          }}
-        ></ButtonDanger>
-      </OverlayThemed>
+      />
     </CardThemed>
   );
 }
