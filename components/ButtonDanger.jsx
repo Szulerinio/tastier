@@ -24,6 +24,7 @@ export default ButtonDanger;
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
+    justifyContent: "center",
     padding: 5,
     borderRadius: 2,
   },
