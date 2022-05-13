@@ -19,3 +19,22 @@ Libraries used:
 * Searching by barcode
 * Sort products by brand, name, type or rate
 * Store products in local database
+
+
+## Installation
+
+```
+npm install  
+```
+
+## running
+```
+npm start
+```
+run the app using Expo go app on your mobile phone
+
+alternatively if you have an expo account you can build .apk using 
+```
+eas build -p android --profile preview
+``` 
+
