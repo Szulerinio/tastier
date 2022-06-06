@@ -1,8 +1,7 @@
 # Tastier
-An app for people who can't remember how they liked something.
+An app for people who can’t remember which brand of a food product they liked the most in today’s world of overwhelming variety.
+It's a simple application that can store your information about a product, so you can quickly look it up using barcode scanner to decide if you want to buy it again.
 
-## General info
-A simple application you to store information about a product and quickly look it up using barcode scanner to decide if you want to buy it again.
 
 ## Technologies
 Written in JavaScript using React Native and Expo
