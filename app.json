@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "userInterfaceStyle": "automatic"
@@ -31,6 +33,11 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "A simple application you to store information about a product and quickly look it up using barcode scanner to decide if you want to buy it again.",
-    "githubUrl": "https://github.com/Szulerinio/tastier"
+    "githubUrl": "https://github.com/Szulerinio/tastier",
+    "extra": {
+      "eas": {
+        "projectId": "de0a322b-9f07-4596-b847-f0b22302bb93"
+      }
+    }
   }
 }
