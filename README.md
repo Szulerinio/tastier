@@ -24,12 +24,12 @@ Libraries used:
 ## Installation
 
 ```
-npm install  
+yarn install 
 ```
 
 ## running
 ```
-npm start
+npx expo start
 ```
 run the app using Expo go app on your mobile phone
 
