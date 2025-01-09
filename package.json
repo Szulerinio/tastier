@@ -16,7 +16,6 @@
     "@types/react": "^19.0.4",
     "babel-preset-react-native": "^4.0.1",
     "expo": "^52.0.23",
-    "expo-barcode-scanner": "~12.3.2",
     "expo-camera": "~16.0.10",
     "expo-print": "~14.0.2",
     "expo-sharing": "~13.0.0",
