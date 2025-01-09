@@ -1,6 +1,7 @@
 {
   "expo": {
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "name": "Tastier",
     "slug": "tastier",
     "version": "1.0.0",

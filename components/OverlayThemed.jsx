@@ -1,5 +1,5 @@
 import { useTheme } from "@react-navigation/native";
-import { Overlay } from "react-native-elements";
+import { Overlay } from "@rneui/themed";
 function OverlayThemed({ children, overlayStyle, ...rest }) {
   const { colors } = useTheme();
   return (

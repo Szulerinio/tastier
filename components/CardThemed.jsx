@@ -1,4 +1,4 @@
-import { Card } from "react-native-elements";
+import { Card } from "@rneui/themed";
 import { useTheme } from "@react-navigation/native";
 function CardThemed({ containerStyle, ...rest }) {
   const { colors } = useTheme();

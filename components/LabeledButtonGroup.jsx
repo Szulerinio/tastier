@@ -1,4 +1,4 @@
-import { ButtonGroup } from "react-native-elements";
+import { ButtonGroup } from "@rneui/themed";
 import { Text } from "react-native";
 import labeledComponentStyle from "./styles/labeledComponentStyle";
 import { useTheme } from "@react-navigation/native";
