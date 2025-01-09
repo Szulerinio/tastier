@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import DataContext from "./data-context";
 
 import * as SQLite from "expo-sqlite";
-const db = SQLite.openDatabase("db.testDb"); // returns Database object
-
+const db = SQLite.openDatabaseSync("db.testDb"); // returns Database object
 const dummyData = [
   {
     code: "0",
@@ -25,18 +24,10 @@ const DataProvider = (props) => {
   const [itemsDataState, setItemsDataState] = useState(dummyData);
 
   useEffect(() => {
-    db.transaction((tx) => {
-      // tx.executeSql("DROP TABLE IF EXISTS items;");
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS items (code INTEGER,  type TEXT, brand TEXT, name TEXT, rate INTEGER)",
-        [],
-        (_, { rows }) => {
-          tx.executeSql("SELECT * FROM items", [], (_, { rows }) => {
-            setItemsDataState(rows._array);
-          });
-        }
-      );
-    });
+    db.runSync(
+      "CREATE TABLE IF NOT EXISTS items (code INTEGER,  type TEXT, brand TEXT, name TEXT, rate INTEGER)"
+    );
+    setItemsDataState(db.getAllSync("SELECT * FROM items"));
   }, []);
 
   const selectAndUpdateState = () => {
@@ -59,6 +50,7 @@ const DataProvider = (props) => {
 
   const updateDatabase = (obj) => {
     return new Promise((resolve, reject) => {
+      console.log(db);
       db.transaction((tx) => {
         tx.executeSql(
           "UPDATE items SET type=?, brand=?, name=?, rate=? WHERE code = ?",
