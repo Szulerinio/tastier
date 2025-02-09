@@ -17,6 +17,7 @@
     "babel-preset-react-native": "^4.0.1",
     "expo": "^52.0.23",
     "expo-camera": "~16.0.10",
+    "expo-dev-client": "~5.0.11",
     "expo-print": "~14.0.2",
     "expo-sharing": "~13.0.0",
     "expo-sqlite": "~15.0.5",
