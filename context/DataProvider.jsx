@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import DataContext from "./data-context";
-
 import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabaseSync("db.testDb"); // returns Database object
 const dummyData = [
@@ -24,141 +23,60 @@ const DataProvider = (props) => {
   const [itemsDataState, setItemsDataState] = useState(dummyData);
 
   useEffect(() => {
-    db.runSync(
-      "CREATE TABLE IF NOT EXISTS items (code INTEGER,  type TEXT, brand TEXT, name TEXT, rate INTEGER)"
-    );
+    db.execSync(`
+      CREATE TABLE IF NOT EXISTS items (code INTEGER,  type TEXT, brand TEXT, name TEXT, rate INTEGER);
+    `);
     setItemsDataState(db.getAllSync("SELECT * FROM items"));
   }, []);
 
   const selectAndUpdateState = () => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "SELECT * FROM items;",
-          [],
-          (_, { rows }) => {
-            setItemsDataState(rows._array);
-            resolve(rows._array);
-          },
-          () => {
-            reject("SQL SELECT failed");
-          }
-        );
-      });
-    });
+    const rows = db.getAllSync("SELECT * FROM items;");
+    setItemsDataState(rows);
+    return rows;
   };
 
   const updateDatabase = (obj) => {
-    return new Promise((resolve, reject) => {
-      console.log(db);
-      db.transaction((tx) => {
-        tx.executeSql(
-          "UPDATE items SET type=?, brand=?, name=?, rate=? WHERE code = ?",
-          [
-            obj.type.trim(),
-            obj.brand.trim(),
-            obj.name.trim(),
-            obj.rate,
-            obj.code,
-          ],
-          () => {
-            resolve("Done");
-          },
-          () => {
-            reject("SQL SELECT failed");
-          }
-        );
-      });
-    });
+    db.runSync(
+      "UPDATE items SET type=?, brand=?, name=?, rate=? WHERE code = ?;",
+      [obj.type.trim(), obj.brand.trim(), obj.name.trim(), obj.rate, obj.code]
+    );
+    return "Done";
   };
 
   const insertIntoDatabase = (obj) => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "INSERT INTO items (code, type, brand, name, rate) VALUES (?,?,?,?,?)",
-          [
-            obj.code.trim(),
-            obj.type.trim(),
-            obj.brand.trim(),
-            obj.name,
-            obj.rate,
-          ],
-          () => {
-            resolve("Done");
-          },
-          () => {
-            reject("SQL INSERT failed");
-          }
-        );
-      });
-    });
+    db.runSync(
+      "INSERT INTO items (code, type, brand, name, rate) VALUES (?,?,?,?,?)",
+      [obj.code.trim(), obj.type.trim(), obj.brand.trim(), obj.name, obj.rate]
+    );
+    return "Done";
   };
 
   const checkIfInDatabase = (obj) => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "SELECT * FROM items WHERE code = ?",
-          [obj.code],
-          (_, { rows }) => {
-            resolve(rows);
-          },
-          () => {
-            reject("SQL SELECT failed");
-          }
-        );
-      });
-    });
+    return db.getFirstSync("SELECT * FROM items WHERE code = ?", [obj.code]);
   };
 
   const deleteFromDatabase = (obj) => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "DELETE FROM items WHERE code = ?",
-          [obj.code],
-          (_, { rows }) => {
-            resolve(rows);
-          },
-          () => {
-            reject("SQL DELETE failed");
-          }
-        );
-      });
-    });
+    return db.runAsync("DELETE FROM items WHERE code = ?", [obj.code]);
   };
+
   const editDataHandler = (obj) => {
-    return new Promise((resolve, reject) => {
-      checkIfInDatabase(obj)
-        .then((rows) => {
-          if (rows.length > 0) {
-            return updateDatabase(obj);
-          } else {
-            return insertIntoDatabase(obj);
-          }
-        })
-        .then(() => {
-          return selectAndUpdateState();
-        })
-        .then(resolve);
-    });
+    const item = checkIfInDatabase(obj);
+    if (!!item) {
+      updateDatabase(obj);
+    } else {
+      insertIntoDatabase(obj);
+    }
+    selectAndUpdateState();
   };
+
   const deleteDataHandler = (obj) => {
-    return new Promise((resolve, reject) => {
-      checkIfInDatabase(obj)
-        .then((rows) => {
-          if (rows.length > 0) {
-            return deleteFromDatabase(obj);
-          }
-          return;
-        })
-        .then(() => {
-          return selectAndUpdateState();
-        })
-        .then(resolve);
-    });
+    const item = checkIfInDatabase(obj);
+    if (!!item) {
+      deleteFromDatabase(obj);
+    }
+    selectAndUpdateState();
   };
+
   const itemsData = {
     items: itemsDataState,
     editData: editDataHandler,
