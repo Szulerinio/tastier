@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Create and checkout Conventional branch based on the ticket description and push it to remote. use `@GitHub Actions`
+dont tell how to do that, just do that
