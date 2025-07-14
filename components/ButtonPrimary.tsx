@@ -1,7 +1,42 @@
 import React from 'react';
-import { Button, ButtonProps } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import { ButtonPrimaryProps } from '../types/camera';
 
-export default function ButtonPrimary({ buttonProps, title }: ButtonPrimaryProps) {
-  return <Button {...buttonProps} title={title} />;
-}
+const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
+  buttonStyle,
+  buttonProps,
+  textStyle,
+  title,
+  children,
+}) => {
+  const { colors } = useTheme();
+
+  return (
+    <TouchableOpacity
+      {...buttonProps}
+      style={{
+        ...styles.button,
+        ...buttonStyle,
+        backgroundColor: colors.primary,
+      }}
+    >
+      {children}
+      <Text style={{ ...styles.text, ...textStyle, color: colors.primaryText }}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    borderRadius: 2,
+  },
+  text: {
+    textTransform: 'uppercase',
+  },
+});
+
+export default ButtonPrimary;

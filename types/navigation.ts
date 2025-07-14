@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Item } from './models';
+import { Item, ItemListFilters } from './models';
 
 export type RootStackParamList = {
   Home: undefined;
   Scanner: undefined;
   Item: { item: Item } | undefined;
-  ItemList: undefined;
-  Filters: undefined;
+  ItemList: { params: ItemListFilters };
+  Filters: { params: ItemListFilters };
   EditItem: { item: Item } | undefined;
 };
 

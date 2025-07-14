@@ -1,77 +1,77 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet, useColorScheme } from "react-native";
-import HomeScreen from "./screens/HomeScreen";
-import ItemListScreen from "./screens/ItemListScreen";
-import FiltersScreen from "./screens/FiltersScreen";
-import ItemScreen from "./screens/ItemScreen";
-import EditItemScreen from "./screens/EditItemScreen";
-import DataProvider from "./context/DataProvider";
-import ScanerScreen from "./screens/ScannerScreen";
+import { NavigationContainer, Theme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, useColorScheme } from 'react-native';
+import HomeScreen from './screens/HomeScreen';
+import ItemListScreen from './screens/ItemListScreen';
+import FiltersScreen from './screens/FiltersScreen';
+import ItemScreen from './screens/ItemScreen';
+import EditItemScreen from './screens/EditItemScreen';
+import DataProvider from './context/DataProvider';
+import ScanerScreen from './screens/ScannerScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { SafeAreaProvider } from "react-native-safe-area-context";
+export interface CustomTheme extends Theme {
+  colors: Theme['colors'] & {
+    primaryText: string;
+    danger: string;
+  };
+}
 
-const MyDarkTheme = {
+const MyDarkTheme: CustomTheme = {
   dark: true,
   colors: {
-    primary: "rgb(1, 126, 216)",
-    danger: "rgb(230, 26, 66)",
-    primaryText: "rgb(255,255,255)",
-    background: "rgb(36, 36, 36)",
-    card: "rgb(27, 27, 27)",
-    text: "rgb(255,255,255)",
-    border: "rgb(1, 63, 109)",
-    notification: "rgb(255, 69, 58)",
+    primary: 'rgb(1, 126, 216)',
+    danger: 'rgb(230, 26, 66)',
+    primaryText: 'rgb(255,255,255)',
+    background: 'rgb(36, 36, 36)',
+    card: 'rgb(27, 27, 27)',
+    text: 'rgb(255,255,255)',
+    border: 'rgb(1, 63, 109)',
+    notification: 'rgb(255, 69, 58)',
   },
 };
-const MyLightTheme = {
+
+const MyLightTheme: CustomTheme = {
   dark: false,
   colors: {
-    primary: "rgb(0, 122, 255)",
-    danger: "rgb(230, 26, 66)",
-    primaryText: "rgb(255, 255, 255)",
-    background: "rgb(242, 242, 242)",
-    card: "rgb(255, 255, 255)",
-    text: "rgb(28, 28, 30)",
-    border: "rgb(0, 122, 255)",
-    notification: "rgb(255, 59, 48)",
+    primary: 'rgb(0, 122, 255)',
+    danger: 'rgb(230, 26, 66)',
+    primaryText: 'rgb(255, 255, 255)',
+    background: 'rgb(242, 242, 242)',
+    card: 'rgb(255, 255, 255)',
+    text: 'rgb(28, 28, 30)',
+    border: 'rgb(0, 122, 255)',
+    notification: 'rgb(255, 59, 48)',
   },
 };
+
 const Stack = createNativeStackNavigator();
+
 export default function App() {
   const scheme = useColorScheme();
+
   return (
     <SafeAreaProvider
       style={{
         backgroundColor:
-          scheme === "dark"
-            ? MyDarkTheme.colors.background
-            : MyLightTheme.colors.background,
-      }} //needed for default screen transition animation
+          scheme === 'dark' ? MyDarkTheme.colors.background : MyLightTheme.colors.background,
+      }}
     >
-      <NavigationContainer
-        theme={scheme === "dark" ? MyDarkTheme : MyLightTheme}
-      >
+      <NavigationContainer theme={scheme === 'dark' ? MyDarkTheme : MyLightTheme}>
         <DataProvider>
           <Stack.Navigator
             screenOptions={{
-              animation: "slide_from_left",
-              headerTitleAlign: "center",
+              animation: 'slide_from_left',
+              headerTitleAlign: 'center',
             }}
             initialRouteName="Home"
           >
-            <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-            <Stack.Screen name="List" component={ItemListScreen}></Stack.Screen>
-            <Stack.Screen
-              name="Filter"
-              component={FiltersScreen}
-            ></Stack.Screen>
-            <Stack.Screen name="Item" component={ItemScreen}></Stack.Screen>
-            <Stack.Screen name="Edit" component={EditItemScreen}></Stack.Screen>
-            <Stack.Screen
-              name="Scanner"
-              component={ScanerScreen}
-            ></Stack.Screen>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="List" component={ItemListScreen} />
+            <Stack.Screen name="Filter" component={FiltersScreen} />
+            <Stack.Screen name="Item" component={ItemScreen} />
+            <Stack.Screen name="Edit" component={EditItemScreen} />
+            <Stack.Screen name="Scanner" component={ScanerScreen} />
           </Stack.Navigator>
         </DataProvider>
       </NavigationContainer>
@@ -81,8 +81,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

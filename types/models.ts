@@ -19,3 +19,18 @@ export interface DatabaseOperations {
   checkIfInDatabase: (item: Pick<Item, 'code'>) => Item | undefined;
   deleteFromDatabase: (item: Pick<Item, 'code'>) => Promise<void>;
 }
+
+// Sorting types
+export type SortableItemFields = keyof Pick<Item, 'type' | 'brand' | 'name' | 'rate'>;
+
+export interface SortOptions {
+  sortBy: SortableItemFields | '';
+  isSortAscending: boolean;
+}
+
+export interface ItemListFilters {
+  type: string;
+  brand: string;
+  name: string;
+  rate: number[];
+}
