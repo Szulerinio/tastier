@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { Button } from "react-native";
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
+import React, { useState } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import { Button } from 'react-native';
+import { CameraView, CameraType, useCameraPermissions, BarcodeScanningResult } from 'expo-camera';
 
-import ButtonPrimary from "./ButtonPrimary";
+import ButtonPrimary from './ButtonPrimary';
+import { CameraElementProps } from '../types/camera';
 
-export default function CameraElemet(props) {
+export default function CameraElement({ onScan }: CameraElementProps) {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isTorchOn, setIsTorchOn] = useState(false);
-  const facing: CameraType = "back";
+  const facing: CameraType = 'back';
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -26,19 +27,21 @@ export default function CameraElemet(props) {
     );
   }
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ type, data }: BarcodeScanningResult) => {
     setScanned(true);
-    props.onScan(data);
-    console.log("type", type);
-    console.log("data", data);
+    onScan(data);
+    console.log('type', type);
+    console.log('data', data);
   };
+
   const handleTorchButtonClick = () => {
     console.log(isTorchOn);
     setIsTorchOn(!isTorchOn);
   };
+
   return (
     <View style={styles.container}>
-      <View style={{ aspectRatio: 3 / 4, width: "100%" }}>
+      <View style={{ aspectRatio: 3 / 4, width: '100%' }}>
         <CameraView
           style={{ flex: 1 }}
           facing={facing}
@@ -46,28 +49,28 @@ export default function CameraElemet(props) {
           onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
           barcodeScannerSettings={{
             barcodeTypes: [
-              "aztec",
-              "ean13",
-              "ean8",
-              "qr",
-              "pdf417",
-              "upc_e",
-              "datamatrix",
-              "code39",
-              "code93",
-              "itf14",
-              "codabar",
-              "code128",
-              "upc_a",
+              'aztec',
+              'ean13',
+              'ean8',
+              'qr',
+              'pdf417',
+              'upc_e',
+              'datamatrix',
+              'code39',
+              'code93',
+              'itf14',
+              'codabar',
+              'code128',
+              'upc_a',
             ],
           }}
-        ></CameraView>
+        />
         <ButtonPrimary
           buttonProps={{
             onPress: handleTorchButtonClick,
           }}
-          title={"Toggle flashlight"}
-        ></ButtonPrimary>
+          title={'Toggle flashlight'}
+        />
       </View>
     </View>
   );
@@ -76,7 +79,7 @@ export default function CameraElemet(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });
