@@ -1,35 +1,25 @@
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
-import { Overlay } from '@rneui/themed';
+import { ViewStyle } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import { Overlay, OverlayProps } from '@rneui/themed';
 import { CustomTheme } from '../App';
 
-interface OverlayThemedProps {
+interface OverlayThemedProps extends Omit<OverlayProps, 'overlayStyle'> {
   children: React.ReactNode;
-  onBackdropPress?: () => void;
-  overlayStyle?: StyleProp<ViewStyle>;
+  overlayStyle?: ViewStyle;
 }
 
-const OverlayThemed: React.FC<OverlayThemedProps> = ({
-  children,
-  onBackdropPress,
-  overlayStyle,
-}) => {
+const OverlayThemed: React.FC<OverlayThemedProps> = ({ children, overlayStyle, ...rest }) => {
   const { colors } = useTheme() as CustomTheme;
 
   return (
     <Overlay
-      isVisible={true}
-      onBackdropPress={onBackdropPress}
-      overlayStyle={[
-        {
-          backgroundColor: colors.card,
-          borderColor: colors.border,
-          borderWidth: 1,
-          padding: 20,
-        },
-        overlayStyle,
-      ]}
+      {...rest}
+      overlayStyle={{
+        padding: 20,
+        backgroundColor: colors.background,
+        ...overlayStyle,
+      }}
     >
       {children}
     </Overlay>

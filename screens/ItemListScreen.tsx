@@ -1,55 +1,96 @@
+import React, { useContext, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, FlatList } from 'react-native';
-import ItemListElement from '../components/ItemListElement';
-import React, { useContext, useState } from 'react';
-import DataContext from '../context/data-context';
-import ButtonPrimary from '../components/ButtonPrimary';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
+import ItemListElement from '../components/ItemListElement';
+import DataContext from '../context/data-context';
+import ButtonPrimary from '../components/ButtonPrimary';
 import TextThemed from '../components/TextThemed';
 import OverlayThemed_ItemList_sort from '../components/OverlayThemed_ItemList_sort';
-import { Item, ItemListFilters, SortableItemFields } from '../types/models';
-import { ItemListScreenProps } from '../types/navigation';
-import { DataContextType } from '../types/context';
+import { Item, ItemsContextData } from '../types/models';
 
-function noAccent(text: string): string {
-  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+interface ListParams {
+  category: string;
+  name: string;
+  tags: string[];
 }
+
+type RootStackParamList = {
+  Home: undefined;
+  List: ListParams;
+  Item: { code: string };
+  Filter: ListParams;
+};
+
+interface ItemListScreenProps {
+  route: RouteProp<RootStackParamList, 'List'>;
+  navigation: NavigationProp<RootStackParamList>;
+}
+
+interface ItemData {
+  id: string;
+  code: string;
+  type: string;
+  brand: string;
+  name: string;
+  category: string;
+  description?: string;
+  tags: string[];
+  rate: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const noAccent = (text: string): string => {
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+};
 
 const getNormalized = (text: string): string => {
   return noAccent(text.trim().toLowerCase());
 };
 
-const defaultFilters: ItemListFilters = {
-  type: '',
-  brand: '',
-  name: '',
-  rate: [],
-};
+const mapItemToItemData = (item: Item): ItemData => ({
+  ...item,
+  code: item.id,
+  type: item.category,
+  brand: item.name,
+  rate: 0,
+});
 
 const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) => {
-  const { params = defaultFilters } = route.params ?? { params: defaultFilters };
-  const [isSortAscending, setIsSortAscending] = useState<boolean>(true);
-  const [sortBy, setSortBy] = useState<SortableItemFields | ''>('name');
-  const ctx = useContext(DataContext) as DataContextType;
-  const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
+  const { params } = route;
+  const [isSortAscending, setIsSortAscending] = useState(true);
+  const [sortBy, setSortBy] = useState<keyof ItemData>('name');
+  const ctx = useContext<ItemsContextData>(DataContext);
+  const [overlayVisible, setOverlayVisible] = useState(false);
 
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
 
-  const printToPDF = async (): Promise<void> => {
-    const itemsHTML = sortItems(filter(ctx.items, params), sortBy, isSortAscending)
+  const handleSortPress = (newSortBy: string) => {
+    setSortBy(newSortBy as keyof ItemData);
+    toggleOverlay();
+  };
+
+  const printToPDF = async () => {
+    const itemsHTML = sortItems(
+      filter(ctx.items.map(mapItemToItemData), params),
+      sortBy,
+      isSortAscending
+    )
       .map(item => {
         return `<tr>
-          <td>${item.type}</td>
-          <td>${item.brand}</td>
+          <td>${item.category}</td>
           <td>${item.name}</td>
+          <td>${item.description || ''}</td>
           <td class="rating">${item.rate}</td>
           <td>${item.code}</td>
         </tr>`;
       })
-      .reduce((prev, el) => prev + `${el}`, '');
+      .join('');
 
     const html = `<html>
       <head>
@@ -78,9 +119,9 @@ const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) =>
         <table>
           <thead>
             <tr>
-              <th>type</th>
-              <th>brand</th>
+              <th>category</th>
               <th>name</th>
+              <th>description</th>
               <th class="rating">rating</th>
               <th>code</th>
             </tr>
@@ -99,34 +140,29 @@ const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) =>
     });
   };
 
-  const renderItem = ({ item }: { item: Item }) => {
-    return <ItemListElement key={item.code} navigation={navigation} data={item} />;
+  const renderItem = ({ item }: { item: ItemData }) => {
+    return <ItemListElement navigation={navigation as any} data={item} />;
   };
 
-  const sortItems = (
-    items: Item[],
-    type: SortableItemFields | '',
-    isSortAscending: boolean
-  ): Item[] => {
-    if (type === '') {
+  const sortItems = (items: ItemData[], type: keyof ItemData, ascending: boolean): ItemData[] => {
+    if (!type) {
       return items;
     }
 
     return [...items].sort((a, b) => {
-      const comparison = a[type] < b[type] ? -1 : 1;
-      return isSortAscending ? comparison : -comparison;
+      const aValue = a[type];
+      const bValue = b[type];
+      if (aValue === undefined || bValue === undefined) return 0;
+      return ascending ? (aValue < bValue ? -1 : 1) : aValue > bValue ? -1 : 1;
     });
   };
 
-  const filter = (data: Item[], filters: ItemListFilters): Item[] => {
+  const filter = (data: ItemData[], filters: ListParams): ItemData[] => {
     return data.filter(item => {
       return (
-        ['type', 'brand', 'name'].every(key =>
-          getNormalized(item[key as keyof Pick<Item, 'type' | 'brand' | 'name'>]).includes(
-            getNormalized(filters[key as keyof Pick<ItemListFilters, 'type' | 'brand' | 'name'>])
-          )
-        ) &&
-        (filters.rate.length === 0 || filters.rate.includes(item.rate))
+        getNormalized(item.name).includes(getNormalized(filters.name)) &&
+        getNormalized(item.category).includes(getNormalized(filters.category)) &&
+        (filters.tags.length === 0 || filters.tags.every(tag => item.tags.includes(tag)))
       );
     });
   };
@@ -144,7 +180,7 @@ const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) =>
       headerRight: () => (
         <ButtonPrimary
           buttonProps={{
-            onPress: () => navigation.navigate('Filters', { params }),
+            onPress: () => navigation.navigate('Filter', { ...params }),
           }}
           title="Filter"
         />
@@ -164,14 +200,10 @@ const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) =>
 
       <FlatList
         style={{ width: '100%' }}
-        data={sortItems(filter(ctx.items, params), sortBy, isSortAscending)}
+        data={sortItems(filter(ctx.items.map(mapItemToItemData), params), sortBy, isSortAscending)}
         renderItem={renderItem}
-        keyExtractor={item => item.code}
-        ListEmptyComponent={
-          <TextThemed style={{ textAlign: 'center' }}>
-            No items match the selected filters
-          </TextThemed>
-        }
+        keyExtractor={item => item.id}
+        ListEmptyComponent={<TextThemed>No items match the selected filters</TextThemed>}
       />
 
       <ButtonPrimary
@@ -183,10 +215,7 @@ const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) =>
       <OverlayThemed_ItemList_sort
         visible={overlayVisible}
         toggleOverlay={toggleOverlay}
-        onSortPress={sortBy => {
-          setSortBy(sortBy as 'type' | 'brand' | 'name' | 'rate');
-          toggleOverlay();
-        }}
+        onSortPress={handleSortPress}
       />
     </View>
   );

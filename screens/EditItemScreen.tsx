@@ -7,95 +7,97 @@ import {
   StyleSheet,
   useColorScheme,
 } from 'react-native';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 import AutocompleteLabeledTextInput from '../components/AutocompleteLabeledTextInput';
 import LabeledTextInput from '../components/LabeledTextInput';
 import DataContext from '../context/data-context';
 import LabeledButtonGroup from '../components/LabeledButtonGroup';
-import { EditItemScreenProps } from '../types/navigation';
-import { DataContextType } from '../types/context';
-import { Item } from '../types/models';
+import { Item, ItemsContextData } from '../types/models';
 
-interface FormValues {
+type RootStackParamList = {
+  Home: undefined;
+  List: {
+    brand: string;
+    name: string;
+    rate: number[];
+    type: string;
+  };
+  Item: { code: string };
+};
+
+interface EditItemScreenProps {
+  route: RouteProp<RootStackParamList & { Edit: { code: string } }, 'Edit'>;
+  navigation: NavigationProp<RootStackParamList>;
+}
+
+interface ItemValues {
   type: string;
   brand: string;
   name: string;
   rate: number;
 }
 
-const MAX_LENGTH = {
-  code: 20,
-  type: 20,
-  brand: 20,
-  name: 40,
-};
-
 const EditItemScreen: React.FC<EditItemScreenProps> = ({ route, navigation }) => {
   const scheme = useColorScheme();
-  const { item } = route.params || {};
-  const ctx = useContext(DataContext) as DataContextType;
+  const { code } = route.params;
+  const ctx = useContext<ItemsContextData>(DataContext);
+  const temp = ctx.items.find(item => item.id === code);
+  const { type = '', brand = '', name = '', rate = 0 } = (temp || {}) as Partial<ItemValues>;
 
-  const initialValues: FormValues = {
-    type: item?.type || '',
-    brand: item?.brand || '',
-    name: item?.name || '',
-    rate: item?.rate || 0,
-  };
-
-  const [values, setValues] = useState<FormValues>(initialValues);
-  const [emptyField, setEmptyField] = useState<keyof FormValues | ''>('');
+  const [values, setValues] = useState<ItemValues>({ type, brand, name, rate });
+  const [empty, setEmpty] = useState<keyof ItemValues | ''>('');
 
   const handleSave = async () => {
     // Check if fields are empty
     if (values.type.trim() === '') {
-      setEmptyField('type');
+      setEmpty('type');
       return;
     }
     if (values.brand.trim() === '') {
-      setEmptyField('brand');
+      setEmpty('brand');
       return;
     }
     if (values.name.trim() === '') {
-      setEmptyField('name');
+      setEmpty('name');
       return;
     }
 
-    const updatedItem: Item = {
-      code: item?.code || '',
+    const newItem: Item = {
+      id: code,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      category: values.type,
+      tags: [],
       ...values,
     };
 
-    await ctx.editData(updatedItem);
-
-    if (!item) {
-      // If this is a new item, reset navigation stack
+    if (!temp) {
+      await ctx.createItem(newItem);
+      const routes = [
+        { name: 'Home' as const, params: undefined },
+        {
+          name: 'List' as const,
+          params: {
+            brand: '',
+            name: '',
+            rate: [],
+            type: '',
+          },
+        },
+        { name: 'Item' as const, params: { code } },
+      ];
       navigation.reset({
         index: 1,
-        routes: [
-          { name: 'Home' },
-          {
-            name: 'ItemList',
-            params: {
-              params: {
-                type: '',
-                brand: '',
-                name: '',
-                rate: [],
-              },
-            },
-          },
-          { name: 'Item', params: { item: updatedItem } },
-        ],
+        routes,
       });
     } else {
-      // If editing existing item, just navigate back
-      navigation.navigate('Item', { item: updatedItem });
+      await ctx.updateItem({ id: code, ...values });
+      navigation.navigate('Item', { code });
     }
   };
 
-  const handleValueChange = (key: keyof FormValues, value: string | number) => {
-    if (emptyField === key) {
-      setEmptyField('');
-    }
+  const handleValueChange = (key: keyof ItemValues, value: string | number) => {
+    if (empty === key) setEmpty('');
     setValues(prevState => ({
       ...prevState,
       [key]: value,
@@ -107,7 +109,7 @@ const EditItemScreen: React.FC<EditItemScreenProps> = ({ route, navigation }) =>
       headerRight: () => (
         <TouchableOpacity onPress={handleSave}>
           <Image
-            style={{ width: 30, height: 30, marginRight: 10 }}
+            style={styles.saveIcon}
             source={
               scheme === 'dark'
                 ? require('../assets/saveLight.png')
@@ -122,38 +124,39 @@ const EditItemScreen: React.FC<EditItemScreenProps> = ({ route, navigation }) =>
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <LabeledTextInput
-        value={item?.code || ''}
+        value={code}
         label="code"
         editable={false}
-        maxLength={MAX_LENGTH.code}
+        maxLength={20}
+        onChange={() => {}}
       />
       <AutocompleteLabeledTextInput
         value={values.type}
         label="type"
         onChange={(value: string) => handleValueChange('type', value)}
-        autocompleteData={Array.from(new Set(ctx.items.map(item => item.type)))}
-        maxLength={MAX_LENGTH.type}
+        autocompleteData={Array.from(new Set(ctx.items.map(item => item.category)))}
+        maxLength={20}
       />
       <AutocompleteLabeledTextInput
         value={values.brand}
         label="brand"
         onChange={(value: string) => handleValueChange('brand', value)}
-        autocompleteData={Array.from(new Set(ctx.items.map(item => item.brand)))}
-        maxLength={MAX_LENGTH.brand}
+        autocompleteData={Array.from(new Set(ctx.items.map(item => item.name)))}
+        maxLength={20}
       />
       <AutocompleteLabeledTextInput
         value={values.name}
         label="name"
         onChange={(value: string) => handleValueChange('name', value)}
-        maxLength={MAX_LENGTH.name}
+        maxLength={40}
         autocompleteData={Array.from(new Set(ctx.items.map(item => item.name)))}
       />
       <LabeledButtonGroup
         label="rate"
         selectedIndexes={values.rate}
-        onChange={(value: number) => handleValueChange('rate', value)}
+        onChange={(value: number | number[]) => handleValueChange('rate', value as number)}
       />
-      {emptyField && <Text style={styles.errorText}>{`${emptyField} can't be empty`}</Text>}
+      {empty && <Text style={styles.errorEmptyText}>{empty} cannot be empty</Text>}
     </ScrollView>
   );
 };
@@ -162,10 +165,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  errorText: {
-    alignSelf: 'center',
+  errorEmptyText: {
     color: 'red',
     padding: 15,
+    alignSelf: 'center',
+  },
+  saveIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
   },
 });
 

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const labeledComponentStyle = StyleSheet.create({
   label: {

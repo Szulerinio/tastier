@@ -1,14 +1,20 @@
 import React from 'react';
-import { Text, Pressable, StyleSheet } from 'react-native';
+import { Text, Pressable, View } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
 import CardThemed from './CardThemed';
 import TextThemed from './TextThemed';
-import { Item } from '../types/models';
-import { NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../types/navigation';
+
+interface ItemData {
+  code: string;
+  type: string;
+  brand: string;
+  name: string;
+  rate: number;
+}
 
 interface ItemListElementProps {
-  data: Item;
-  navigation: NavigationProp<RootStackParamList>;
+  data: ItemData;
+  navigation: NavigationProp<any>;
 }
 
 const ItemListElement: React.FC<ItemListElementProps> = ({ data, navigation }) => {
@@ -16,43 +22,32 @@ const ItemListElement: React.FC<ItemListElementProps> = ({ data, navigation }) =
 
   return (
     <Pressable
-      style={styles.container}
+      style={{ flex: 1 }}
       onPress={() => {
-        navigation.navigate('Item', { item: data });
+        navigation.navigate('Item', { code });
       }}
     >
-      <CardThemed containerStyle={styles.card}>
-        <Text style={styles.textContainer}>
-          <TextThemed style={styles.text}>
+      <CardThemed containerStyle={{ flex: 1 }}>
+        <Text
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <TextThemed>
             {type}
             {'\n'}
           </TextThemed>
-          <TextThemed style={styles.text}>
+          <TextThemed>
             {brand} {'\n'}
           </TextThemed>
-          <TextThemed style={styles.text}>
+          <TextThemed>
             {name} {'\n'}
           </TextThemed>
-          <TextThemed style={styles.text}>Rate: {rate}</TextThemed>
+          <TextThemed>Rate: {rate}</TextThemed>
         </Text>
       </CardThemed>
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-  text: {
-    textAlign: 'center',
-  },
-  textContainer: {
-    textAlign: 'center',
-  },
-});
 
 export default ItemListElement;

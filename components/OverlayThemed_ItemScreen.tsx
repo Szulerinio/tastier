@@ -33,7 +33,7 @@ const EditOverlay: React.FC<EditOverlayProps> = ({
   onBackdropPress,
 }) => {
   return (
-    <OverlayThemed onBackdropPress={onBackdropPress}>
+    <OverlayThemed isVisible onBackdropPress={onBackdropPress}>
       <ButtonPrimary
         title="Edit"
         buttonStyle={styles.button}
@@ -58,7 +58,7 @@ const ConfirmOverlay: React.FC<ConfirmOverlayProps> = ({
   onBackdropPress,
 }) => {
   return (
-    <OverlayThemed onBackdropPress={onBackdropPress}>
+    <OverlayThemed isVisible onBackdropPress={onBackdropPress}>
       <TextThemed>Are you sure? This cannot be undone</TextThemed>
       <ButtonDanger
         title="Delete"
@@ -109,7 +109,8 @@ const OverlayThemed_ItemScreen: React.FC<OverlayThemed_ItemScreenProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    marginVertical: 5,
+    margin: '3%',
+    minWidth: '50%',
   },
 });
 
