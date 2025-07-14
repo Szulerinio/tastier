@@ -1,65 +1,49 @@
-import OverlayThemed from './OverlayThemed';
-import ButtonPrimary from './ButtonPrimary';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Overlay } from '@rneui/themed';
+import { useTheme } from '@react-navigation/native';
+import ButtonPrimary from './ButtonPrimary';
 import TextThemed from './TextThemed';
-import { SortableItemFields } from '../types/models';
+import { CustomTheme } from '../App';
 
-interface OverlayThemedItemListSortProps {
-  isVisible: boolean;
+interface Props {
+  visible: boolean;
   toggleOverlay: () => void;
-  sortBy: SortableItemFields | '';
-  setSortBy: (value: SortableItemFields | '') => void;
-  isSortAscending: boolean;
-  setIsSortAscending: (value: boolean) => void;
+  onSortPress: (sortBy: string) => void;
 }
 
-const OverlayThemed_ItemList_sort: React.FC<OverlayThemedItemListSortProps> = ({
-  isVisible,
-  toggleOverlay,
-  sortBy,
-  setSortBy,
-  isSortAscending,
-  setIsSortAscending,
-}) => {
+const OverlayThemed_ItemList_sort: React.FC<Props> = ({ visible, toggleOverlay, onSortPress }) => {
+  const { colors } = useTheme() as CustomTheme;
+
   return (
-    isVisible && (
-      <OverlayThemed onBackdropPress={toggleOverlay} overlayStyle={{ flexDirection: 'row' }}>
-        <View>
-          <TextThemed style={{ textAlign: 'center' }}>Sort by:</TextThemed>
-          {(['type', 'brand', 'name', 'rate'] as const).map((value, index) => (
-            <View
-              key={index}
-              style={{
-                opacity: sortBy === value ? 1 : 0.2,
-              }}
-            >
-              <ButtonPrimary
-                buttonStyle={styles.button}
-                title={value}
-                buttonProps={{
-                  onPress: () => {
-                    setSortBy(value);
-                  },
-                }}
-              />
-            </View>
-          ))}
-          <ButtonPrimary
-            buttonStyle={styles.button}
-            title={isSortAscending ? 'Ascending' : 'Descending'}
-            buttonProps={{
-              onPress: () => setIsSortAscending(!isSortAscending),
-            }}
-          />
-        </View>
-      </OverlayThemed>
-    )
+    <Overlay
+      isVisible={visible}
+      onBackdropPress={toggleOverlay}
+      overlayStyle={[styles.overlay, { backgroundColor: colors.card }]}
+    >
+      <View style={styles.container}>
+        <TextThemed style={styles.title}>Sort by:</TextThemed>
+        <ButtonPrimary buttonProps={{ onPress: () => onSortPress('brand') }} title="Brand" />
+        <ButtonPrimary buttonProps={{ onPress: () => onSortPress('name') }} title="Name" />
+        <ButtonPrimary buttonProps={{ onPress: () => onSortPress('type') }} title="Type" />
+        <ButtonPrimary buttonProps={{ onPress: () => onSortPress('rate') }} title="Rate" />
+      </View>
+    </Overlay>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    marginVertical: 5,
+  container: {
+    padding: 20,
+  },
+  overlay: {
+    borderRadius: 10,
+    width: '80%',
+  },
+  title: {
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: 'center',
   },
 });
 

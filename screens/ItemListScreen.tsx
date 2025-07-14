@@ -181,12 +181,12 @@ const ItemListScreen: React.FC<ItemListScreenProps> = ({ route, navigation }) =>
         title="Print to PDF"
       />
       <OverlayThemed_ItemList_sort
-        isVisible={overlayVisible}
+        visible={overlayVisible}
         toggleOverlay={toggleOverlay}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        isSortAscending={isSortAscending}
-        setIsSortAscending={setIsSortAscending}
+        onSortPress={sortBy => {
+          setSortBy(sortBy as 'type' | 'brand' | 'name' | 'rate');
+          toggleOverlay();
+        }}
       />
     </View>
   );

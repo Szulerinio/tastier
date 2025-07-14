@@ -28,10 +28,10 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    padding: 10,
-    borderRadius: 5,
     alignItems: 'center',
+    borderRadius: 5,
     justifyContent: 'center',
+    padding: 10,
   },
   text: {
     fontSize: 16,

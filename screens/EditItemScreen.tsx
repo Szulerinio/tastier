@@ -163,9 +163,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorText: {
+    alignSelf: 'center',
     color: 'red',
     padding: 15,
-    alignSelf: 'center',
   },
 });
 

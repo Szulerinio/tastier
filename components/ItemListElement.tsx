@@ -41,16 +41,16 @@ const ItemListElement: React.FC<ItemListElementProps> = ({ data, navigation }) =
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   card: {
     flex: 1,
   },
-  textContainer: {
-    textAlign: 'center',
+  container: {
+    flex: 1,
   },
   text: {
+    textAlign: 'center',
+  },
+  textContainer: {
     textAlign: 'center',
   },
 });

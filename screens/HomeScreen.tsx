@@ -83,16 +83,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    margin: '10%',
-  },
   buttonContainer: {
     marginVertical: '10%',
   },
   buttonImage: {
     margin: 10,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    margin: '10%',
   },
 });
 

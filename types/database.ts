@@ -1,4 +1,3 @@
-import { SQLiteDatabase as ExpoSQLiteDatabase } from 'expo-sqlite';
 import { Item } from './models';
 
 export interface SQLiteRunResult {
@@ -6,30 +5,18 @@ export interface SQLiteRunResult {
   insertId?: number;
 }
 
-// Custom database interface that includes only what we need
 export interface SQLiteDatabase {
   execSync(query: string): void;
-  getAllSync(query: string, params?: any[]): Item[];
-  getFirstSync(query: string, params?: any[]): Item | undefined;
-  runSync(query: string, params?: any[]): void;
-  runAsync(query: string, params?: any[]): Promise<SQLiteRunResult>;
-}
-
-export interface DatabaseError {
-  code: string;
-  message: string;
-}
-
-export interface DatabaseQueryResult {
-  success: boolean;
-  error?: DatabaseError;
-  data?: Item | Item[];
+  getAllSync(query: string, params?: unknown[]): Item[];
+  getFirstSync(query: string, params?: unknown[]): Item | undefined;
+  runSync(query: string, params?: unknown[]): void;
+  runAsync(query: string, params?: unknown[]): Promise<SQLiteRunResult>;
 }
 
 export interface DatabaseOperations {
-  selectAndUpdateState: () => Item[];
-  updateDatabase: (item: Item) => string;
-  insertIntoDatabase: (item: Item) => string;
-  checkIfInDatabase: (item: Pick<Item, 'code'>) => Item | undefined;
-  deleteFromDatabase: (item: Pick<Item, 'code'>) => Promise<void>;
+  getItem: (code: string) => Promise<Item | null>;
+  getItems: (filters: Partial<Item>) => Promise<Item[]>;
+  addItem: (item: Item) => Promise<void>;
+  updateItem: (item: Item) => Promise<void>;
+  deleteItem: (code: string) => Promise<void>;
 }
