@@ -22,7 +22,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "target": "esnext",
-    "types": ["react-native", "jest"]
+    "types": ["react-native", "jest"],
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true
   },
   "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"],
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
