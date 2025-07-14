@@ -1,27 +1,64 @@
+// Base Item type
 export interface Item {
-  code: string;
-  type: string;
-  brand: string;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
   name: string;
-  rate: number;
+  description?: string;
+  category: string;
+  tags: string[];
 }
+
+// For creating new items (omitting auto-generated fields)
+export type CreateItemInput = Omit<Item, 'id' | 'createdAt' | 'updatedAt'>;
+
+// For updating items (all fields optional except id)
+export type UpdateItemInput = Partial<Omit<Item, 'id'>> & { id: string };
+
+// For read-only fields
+export type ReadOnlyItem = Readonly<Item>;
+
+// For list responses
+export type ItemList = {
+  items: ReadOnlyItem[];
+  totalCount: number;
+  hasMore: boolean;
+};
+
+// For item responses
+export type ItemResponse = {
+  item: ReadOnlyItem;
+  relatedItems?: ReadOnlyItem[];
+};
+
+// For batch operations
+export type BatchItemOperation = {
+  items: (CreateItemInput | UpdateItemInput)[];
+  operation: 'create' | 'update' | 'delete';
+};
 
 export interface ItemsContextData {
   items: Item[];
-  editData: (item: Item) => void;
-  deleteData: (item: Item) => void;
+  loading: boolean;
+  error: string | null;
+  getItem: (id: string) => Promise<Item | null>;
+  createItem: (item: CreateItemInput) => Promise<Item>;
+  updateItem: (item: UpdateItemInput) => Promise<Item>;
+  deleteItem: (id: string) => Promise<void>;
+  searchItems: (query: string) => Promise<Item[]>;
+  filterItems: (category: string) => Promise<Item[]>;
 }
 
 export interface DatabaseOperations {
   selectAndUpdateState: () => Item[];
   updateDatabase: (item: Item) => string;
   insertIntoDatabase: (item: Item) => string;
-  checkIfInDatabase: (item: Pick<Item, 'code'>) => Item | undefined;
-  deleteFromDatabase: (item: Pick<Item, 'code'>) => Promise<void>;
+  checkIfInDatabase: (item: Pick<Item, 'id'>) => Item | undefined;
+  deleteFromDatabase: (item: Pick<Item, 'id'>) => Promise<void>;
 }
 
 // Sorting types
-export type SortableItemFields = keyof Pick<Item, 'type' | 'brand' | 'name' | 'rate'>;
+export type SortableItemFields = keyof Pick<Item, 'name' | 'category' | 'createdAt' | 'updatedAt'>;
 
 export interface SortOptions {
   sortBy: SortableItemFields | '';
@@ -29,8 +66,7 @@ export interface SortOptions {
 }
 
 export interface ItemListFilters {
-  type: string;
-  brand: string;
+  category: string;
   name: string;
-  rate: number[];
+  tags: string[];
 }
