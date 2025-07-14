@@ -1,41 +1,41 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { ButtonPrimaryProps } from '../types/camera';
+import { CustomTheme } from '../App';
 
 const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
-  buttonStyle,
   buttonProps,
-  textStyle,
   title,
+  buttonStyle,
+  textStyle,
   children,
 }) => {
-  const { colors } = useTheme();
+  const { colors } = useTheme() as CustomTheme;
 
   return (
     <TouchableOpacity
       {...buttonProps}
-      style={{
-        ...styles.button,
-        ...buttonStyle,
-        backgroundColor: colors.primary,
-      }}
+      style={[styles.button, { backgroundColor: colors.primary }, buttonStyle as ViewStyle]}
     >
+      <Text style={[styles.text, { color: colors.primaryText }, textStyle as TextStyle]}>
+        {title}
+      </Text>
       {children}
-      <Text style={{ ...styles.text, ...textStyle, color: colors.primaryText }}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
+    padding: 10,
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 5,
-    borderRadius: 2,
   },
   text: {
-    textTransform: 'uppercase',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

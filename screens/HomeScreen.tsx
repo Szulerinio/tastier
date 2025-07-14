@@ -13,6 +13,7 @@ import React from 'react';
 import ButtonPrimary from '../components/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HomeScreenProps } from '../types/navigation';
+import { ItemListFilters } from '../types/models';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   React.useLayoutEffect(() => {
@@ -47,6 +48,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     </View>
   );
 
+  const defaultFilters: ItemListFilters = {
+    type: '',
+    brand: '',
+    name: '',
+    rate: [],
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -59,13 +67,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         )}
         {renderButton(
           'Search your products',
-          () => navigation.navigate('Filters'),
+          () => navigation.navigate('Filters', { params: defaultFilters }),
           require('../assets/searchLight.png'),
           require('../assets/searchDark.png')
         )}
         {renderButton(
           'Your items',
-          () => navigation.navigate('ItemList'),
+          () => navigation.navigate('ItemList', { params: defaultFilters }),
           require('../assets/itemsLight.png'),
           require('../assets/itemsDark.png')
         )}
@@ -75,18 +83,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flex: 1,
-    marginVertical: '10%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 18,
-  },
   container: {
     flex: 1,
     justifyContent: 'center',
     margin: '10%',
+  },
+  buttonContainer: {
+    marginVertical: '10%',
   },
   buttonImage: {
     margin: 10,

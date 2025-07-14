@@ -7,8 +7,9 @@ import FiltersScreen from './screens/FiltersScreen';
 import ItemScreen from './screens/ItemScreen';
 import EditItemScreen from './screens/EditItemScreen';
 import DataProvider from './context/DataProvider';
-import ScanerScreen from './screens/ScannerScreen';
+import ScannerScreen from './screens/ScannerScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { RootStackParamList } from './types/navigation';
 
 export interface CustomTheme extends Theme {
   colors: Theme['colors'] & {
@@ -45,7 +46,7 @@ const MyLightTheme: CustomTheme = {
   },
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const scheme = useColorScheme();
@@ -67,17 +68,18 @@ export default function App() {
             initialRouteName="Home"
           >
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="List" component={ItemListScreen} />
-            <Stack.Screen name="Filter" component={FiltersScreen} />
+            <Stack.Screen name="ItemList" component={ItemListScreen} />
+            <Stack.Screen name="Filters" component={FiltersScreen} />
             <Stack.Screen name="Item" component={ItemScreen} />
-            <Stack.Screen name="Edit" component={EditItemScreen} />
-            <Stack.Screen name="Scanner" component={ScanerScreen} />
+            <Stack.Screen name="EditItem" component={EditItemScreen} />
+            <Stack.Screen name="Scanner" component={ScannerScreen} />
           </Stack.Navigator>
         </DataProvider>
       </NavigationContainer>
     </SafeAreaProvider>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

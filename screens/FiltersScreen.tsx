@@ -1,12 +1,14 @@
-import { useContext, useState } from 'react';
-import { StyleSheet, ScrollView, ViewStyle } from 'react-native';
-import LabeledButtonGroup from '../components/LabeledButtonGroup';
+import React, { useContext, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { FiltersScreenProps } from '../types/navigation';
+import DataContext from '../context/data-context';
 import ButtonPrimary from '../components/ButtonPrimary';
 import AutocompleteLabeledTextInput from '../components/AutocompleteLabeledTextInput';
-import DataContext from '../context/data-context';
-import { FiltersScreenProps } from '../types/navigation';
+import LabeledButtonGroup from '../components/LabeledButtonGroup';
+import { ItemListFilters, Item } from '../types/models';
+import { DataContextType } from '../types/context';
 
-interface FilterValues {
+interface FilterValues extends ItemListFilters {
   type: string;
   brand: string;
   name: string;
@@ -16,9 +18,16 @@ interface FilterValues {
 const MAX_INPUT_LENGTH = 50;
 
 const FiltersScreen: React.FC<FiltersScreenProps> = ({ route, navigation }) => {
-  const { type, brand, name, rate } = route.params ?? { type: '', brand: '', name: '', rate: [] };
-  const [values, setValues] = useState<FilterValues>({ type, brand, name, rate });
-  const ctx = useContext(DataContext);
+  const defaultParams: ItemListFilters = {
+    type: '',
+    brand: '',
+    name: '',
+    rate: [],
+  };
+
+  const currentParams = route.params?.params || defaultParams;
+  const [values, setValues] = useState<FilterValues>(currentParams);
+  const ctx = useContext(DataContext) as DataContextType;
 
   const handleValueChange = (key: keyof FilterValues, value: string | number[]) => {
     setValues(prevState => ({
@@ -35,7 +44,7 @@ const FiltersScreen: React.FC<FiltersScreenProps> = ({ route, navigation }) => {
         value={values.type}
         maxLength={MAX_INPUT_LENGTH}
         onChange={(value: string) => handleValueChange('type', value)}
-        autocompleteData={Array.from(new Set(ctx.items.map(item => item.type)))}
+        autocompleteData={Array.from(new Set(ctx.items.map((item: Item) => item.type)))}
       />
       <AutocompleteLabeledTextInput
         key={1}
@@ -43,7 +52,7 @@ const FiltersScreen: React.FC<FiltersScreenProps> = ({ route, navigation }) => {
         value={values.brand}
         maxLength={MAX_INPUT_LENGTH}
         onChange={(value: string) => handleValueChange('brand', value)}
-        autocompleteData={Array.from(new Set(ctx.items.map(item => item.brand)))}
+        autocompleteData={Array.from(new Set(ctx.items.map((item: Item) => item.brand)))}
       />
       <AutocompleteLabeledTextInput
         key={2}
@@ -51,7 +60,7 @@ const FiltersScreen: React.FC<FiltersScreenProps> = ({ route, navigation }) => {
         value={values.name}
         maxLength={MAX_INPUT_LENGTH}
         onChange={(value: string) => handleValueChange('name', value)}
-        autocompleteData={Array.from(new Set(ctx.items.map(item => item.name)))}
+        autocompleteData={Array.from(new Set(ctx.items.map((item: Item) => item.name)))}
       />
       <LabeledButtonGroup
         label="Rate"
@@ -62,20 +71,17 @@ const FiltersScreen: React.FC<FiltersScreenProps> = ({ route, navigation }) => {
       <ButtonPrimary
         title="Filter"
         buttonProps={{
-          onPress: () => navigation.navigate('ItemList'),
+          onPress: () => navigation.navigate('ItemList', { params: values }),
         }}
       />
     </ScrollView>
   );
 };
 
-interface Styles {
-  container: ViewStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
   },
 });
 
